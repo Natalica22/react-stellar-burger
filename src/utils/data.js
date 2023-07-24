@@ -11,7 +11,8 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/bun-02.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
-     "__v":0
+     "__v":0,
+     "count": 123
   },
   {
      "_id":"60666c42cc7b410027a1a9b5",
@@ -25,7 +26,8 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/meat-04.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/meat-04-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/meat-04-large.png",
-     "__v":0
+     "__v":0,
+     "count": 1
   },
   {
      "_id":"60666c42cc7b410027a1a9b6",

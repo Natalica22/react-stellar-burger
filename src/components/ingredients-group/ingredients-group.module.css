@@ -1,0 +1,8 @@
+.ingredients {
+  margin: 0;
+  display: grid;
+  list-style: none;
+  gap: 32px 24px;
+  justify-content: center;
+  grid-template-columns: repeat(2, 1fr);
+}
