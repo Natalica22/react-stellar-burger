@@ -3,6 +3,7 @@ import {
   BurgerIcon,
   ListIcon,
   ProfileIcon,
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 
@@ -12,22 +13,22 @@ export default function AppHeader() {
     <header className={styles.header}>
       <nav className={`${styles.navbar} pb-4 pt-4`}>
         <div className={styles.container}>
-          <a className={styles.link}>
+          <Button htmlType="button" type="secondary" size="large" extraClass={`text text_type_main-default ${styles.link} ${styles.link_active}`}>
             <BurgerIcon type="primary" />
-            <p className="text text_type_main-default pl-2">Конструктор</p>
-          </a>
-          <a className={styles.link}>
+            Конструктор
+          </Button>
+          <Button htmlType="button" type="secondary" size="large" extraClass={`text text_type_main-default text_color_inactive ${styles.link}`}>
             <ListIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive pl-2">Лента заказов</p>
-          </a>
+            Лента заказов
+          </Button>
         </div>
         <div className={styles.logo}>
           <Logo />
         </div>
-        <a className={`${styles.link} ${styles.link_type_left}`}>
+        <Button htmlType="button" type="secondary" size="large" extraClass={`text text_type_main-default text_color_inactive ${styles.link} ${styles.link_type_left}`}>
           <ProfileIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive pl-2">Личный кабинет</p>
-        </a>
+          Личный кабинет
+        </Button>
       </nav>
     </header>
   );

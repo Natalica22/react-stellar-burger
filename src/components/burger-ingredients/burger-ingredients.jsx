@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Counter,
   Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
