@@ -8,7 +8,7 @@ export default function BurgerConstructor() {
   const ingredients = order.map(e => data.find(elem => elem._id === e));
 
   return (
-    <section className={styles.burger}>
+    <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
       <div className={styles.ingredients}>
         <ConstructorElement
           type="top"
@@ -18,16 +18,18 @@ export default function BurgerConstructor() {
           thumbnail={bun.image}
           extraClass={`${styles.ingredient} ml-8`}
         />
-        {ingredients.map((e, i) =>
-          <div className={styles.dragable_ingredient} key={i}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text={e.name}
-              price={e.price}
-              thumbnail={e.image}
-              extraClass={styles.ingredient}
-            />
-          </div>)}
+        <div className={`${styles.group} custom-scroll`}>
+          {ingredients.map((e, i) =>
+            <div className={styles.dragable_ingredient} key={i}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={e.name}
+                price={e.price}
+                thumbnail={e.image}
+                extraClass={styles.ingredient}
+              />
+            </div>)}
+        </div>
         <ConstructorElement
           type="bottom"
           isLocked={true}

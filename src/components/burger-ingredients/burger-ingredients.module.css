@@ -1,3 +1,8 @@
 .ingredients {
   width: 600px;
 }
+
+.groups {
+  overflow-y: auto;
+  max-height: calc(100vh - 284px);
+}

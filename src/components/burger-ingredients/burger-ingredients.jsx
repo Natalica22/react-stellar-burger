@@ -45,9 +45,9 @@ export default function BurgerIngredients() {
           Начинки
         </Tab>
       </div>
-      {
-        ingredientsTypes.map(e => <IngredientsGroup title={ingredients[e]} ingredients={ingredientsByType[e]} key={e} />)
-      }
+      <div className={`${styles.groups} custom-scroll`}>
+        {ingredientsTypes.map(e => <IngredientsGroup title={ingredients[e]} ingredients={ingredientsByType[e]} key={e} />)}
+      </div>
     </section>
   );
 }
