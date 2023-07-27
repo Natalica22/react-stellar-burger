@@ -1,11 +1,12 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { data, order, orderBun } from "../../utils/data";
+import { order, orderBun } from "../../utils/data";
 import styles from "./burger-constructor.module.css";
+import { ingredientArrayPropType } from "../../utils/prop-types";
 
 
-export default function BurgerConstructor() {
-  const bun = data.find(e => e._id === orderBun);
-  const ingredients = order.map(e => data.find(elem => elem._id === e));
+export default function BurgerConstructor({ ingrediens }) {
+  const bun = ingrediens.find(e => e._id === orderBun);
+  const orderIngrediens = order.map(e => ingrediens.find(elem => elem._id === e));
 
   return (
     <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
@@ -19,7 +20,7 @@ export default function BurgerConstructor() {
           extraClass={`${styles.ingredient} ml-8`}
         />
         <div className={`${styles.group} custom-scroll`}>
-          {ingredients.map((e, i) =>
+          {orderIngrediens.map((e, i) =>
             <div className={styles.dragable_ingredient} key={i}>
               <DragIcon type="primary" />
               <ConstructorElement
@@ -52,3 +53,6 @@ export default function BurgerConstructor() {
   );
 }
 
+BurgerConstructor.propTypes = {
+  ingrediens: ingredientArrayPropType
+}

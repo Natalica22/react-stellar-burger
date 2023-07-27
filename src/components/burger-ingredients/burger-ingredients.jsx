@@ -4,7 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "../ingredients-group/ingredients-group";
-import { data } from "../../utils/data";
+import { ingredientArrayPropType } from "../../utils/prop-types";
 
 const bun = 'bun';
 const sauce = 'sauce';
@@ -18,7 +18,7 @@ const ingredients = {
   main: 'Начинки'
 }
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({ ingrediens }) {
   const [currentIngridient, setCurrentIngridient] = React.useState('bun');
 
   const ingredientsByType = {
@@ -27,7 +27,7 @@ export default function BurgerIngredients() {
     main: []
   };
 
-  data.forEach(e => {
+  ingrediens.forEach(e => {
     ingredientsByType[e.type].push(e);
   });
 
@@ -50,4 +50,8 @@ export default function BurgerIngredients() {
       </div>
     </section>
   );
+}
+
+BurgerIngredients.propTypes = {
+  ingrediens: ingredientArrayPropType
 }
