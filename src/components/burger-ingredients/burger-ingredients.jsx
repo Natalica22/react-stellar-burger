@@ -3,7 +3,7 @@ import {
   Tab
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
-import IngredientsGroup from "../ingredients-group/ingredients-group";
+import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { ingredientArrayPropType } from "../../utils/prop-types";
 
 const bun = 'bun';

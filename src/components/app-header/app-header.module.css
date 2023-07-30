@@ -14,14 +14,7 @@
 
 .container {
   display: flex;
-  column-gap: 8px;
-}
-
-.link {
-  display: flex;
-  align-items: center;
-  padding: 16px 20px;
-  column-gap: 8px;
+  column-gap: calc(var(--offset-base-size) * 2);
 }
 
 .link_active {
