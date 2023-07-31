@@ -21,6 +21,10 @@ export default function BurgerConstructor({ ingrediens }) {
     setModalVisible(true);
   }
 
+  const closeModal = () => {
+    setModalVisible(false);
+  }
+
   return (
     <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
       <div className={styles.ingredients}>
@@ -64,7 +68,7 @@ export default function BurgerConstructor({ ingrediens }) {
       </div>
       {
         modalVisible && 
-        <Modal>
+        <Modal handleCloseClick={closeModal}>
           <h2 className="text text_type_digits-large pt-4 pb-8">034536</h2>
           <p className="text text_type_main-medium">идентификатор заказа</p>
           <img src={doneImage} alt="оформлено" className="pt-15 pb-15"/>
