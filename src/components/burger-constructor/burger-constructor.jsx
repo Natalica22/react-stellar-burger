@@ -5,11 +5,11 @@ import {
   ConstructorElement,
   CurrencyIcon,
   DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { order, orderBun } from "../../utils/data";
+import { order, orderBun, orderData } from "../../utils/data";
 import styles from "./burger-constructor.module.css";
 import { ingredientArrayPropType } from "../../utils/prop-types";
 import Modal from "../modal/modal";
-import doneImage from "../../images/done.svg";
+import OrderDetails from "../order-details/order-details";
 
 export default function BurgerConstructor({ ingrediens }) {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -69,11 +69,7 @@ export default function BurgerConstructor({ ingrediens }) {
       {
         modalVisible && 
         <Modal handleCloseClick={closeModal}>
-          <h2 className={`text text_type_digits-large pt-4 pb-8 ${styles.order_number}`}>034536</h2>
-          <p className="text text_type_main-medium">идентификатор заказа</p>
-          <img src={doneImage} alt="оформлено" className="pt-15 pb-15"/>
-          <p className="text text_type_main-default pb-2">Ваш заказ начали готовить</p>
-          <p className="text text_type_main-default text_color_inactive pb-30">Дождитесь готовности на орбитальной станции</p>
+          <OrderDetails orderData={orderData} />
         </Modal>
       }
     </section>
