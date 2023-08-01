@@ -1,0 +1,15 @@
+.details {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  column-gap: calc(var(--offset-base-size) * 5);
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 2);
+  align-items: center;
+  min-width: 112px;
+}

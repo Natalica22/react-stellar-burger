@@ -1,10 +1,10 @@
 import React from "react";
-import {
-  Tab
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { ingredientArrayPropType } from "../../utils/prop-types";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 const bun = 'bun';
 const sauce = 'sauce';
@@ -19,7 +19,12 @@ const ingredients = {
 }
 
 export default function BurgerIngredients({ ingrediens }) {
-  const [currentIngridient, setCurrentIngridient] = React.useState('bun');
+  const [currentIngridientTab, setCurrentIngridientTab] = React.useState('bun');
+  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
+
+  const closeModal = () => {
+    setSelectedIngredient(null);
+  }
 
   const ingredientsByType = {
     bun: [],
@@ -35,19 +40,25 @@ export default function BurgerIngredients({ ingrediens }) {
     <section className={styles.ingredients}>
       <h1 className="pt-10 pb-5 text text_type_main-large">Соберите бургер</h1>
       <div style={{ display: 'flex' }}>
-        <Tab value={bun} active={currentIngridient === bun} onClick={setCurrentIngridient}>
+        <Tab value={bun} active={currentIngridientTab === bun} onClick={setCurrentIngridientTab}>
           Булки
         </Tab>
-        <Tab value={sauce} active={currentIngridient === sauce} onClick={setCurrentIngridient}>
+        <Tab value={sauce} active={currentIngridientTab === sauce} onClick={setCurrentIngridientTab}>
           Соусы
         </Tab>
-        <Tab value={main} active={currentIngridient === main} onClick={setCurrentIngridient}>
+        <Tab value={main} active={currentIngridientTab === main} onClick={setCurrentIngridientTab}>
           Начинки
         </Tab>
       </div>
       <div className={`${styles.groups} custom-scroll`}>
-        {ingredientsTypes.map(e => <IngredientsGroup title={ingredients[e]} ingredients={ingredientsByType[e]} key={e} />)}
+        {ingredientsTypes.map(e => <IngredientsGroup title={ingredients[e]} ingredients={ingredientsByType[e]} key={e} setSelectedIngredient={setSelectedIngredient} />)}
       </div>
+      {
+        selectedIngredient && 
+        <Modal handleCloseClick={closeModal} title="Детали ингредиента">
+          <IngredientDetails ingredient={selectedIngredient} />
+        </Modal>
+      }
     </section>
   );
 }

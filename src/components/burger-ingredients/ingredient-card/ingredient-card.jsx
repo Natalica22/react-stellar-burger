@@ -1,11 +1,14 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-card.module.css";
 
-export default function IngredientCard(props) {
-  const ingredient = props.ingredient;
+export default function IngredientCard({ ingredient, setSelectedIngredient }) {
+
+  const onClick = () => {
+    setSelectedIngredient(ingredient);
+  }
 
   return (
-    <li className={styles.card}>
+    <li className={styles.card} onClick={onClick}>
       {ingredient.count > 0 && <Counter count={ingredient.count} size="default" extraClass="m-1" />}
       <img src={ingredient.image} alt={ingredient.name} className={styles.image}/>
       <div className={`${styles.price}  pt-2 pb-2`}>
