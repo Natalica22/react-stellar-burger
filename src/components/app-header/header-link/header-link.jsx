@@ -12,5 +12,6 @@ export default function HeaderLink({ extraClass, children }) {
 }
 
 HeaderLink.propTypes = {
-  extraClass: PropTypes.string
+  extraClass: PropTypes.string,
+  children: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.element, PropTypes.string])).isRequired
 }
