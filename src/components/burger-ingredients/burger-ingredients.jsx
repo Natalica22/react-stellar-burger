@@ -64,5 +64,5 @@ export default function BurgerIngredients({ ingrediens }) {
 }
 
 BurgerIngredients.propTypes = {
-  ingrediens: ingredientArrayPropType
+  ingrediens: ingredientArrayPropType.isRequired
 }

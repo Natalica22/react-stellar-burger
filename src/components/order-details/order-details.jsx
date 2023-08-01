@@ -1,4 +1,5 @@
 import doneImage from "../../images/done.svg";
+import { orderPropTypes } from "../../utils/prop-types";
 import styles from "./order-details.module.css";
 
 export default function OrderDetails({ orderData }) {
@@ -12,4 +13,8 @@ export default function OrderDetails({ orderData }) {
       <p className="text text_type_main-default text_color_inactive pb-30">Дождитесь готовности на орбитальной станции</p>
     </>
   );
+}
+
+OrderDetails.propTypes = {
+  orderData: orderPropTypes.isRequired
 }

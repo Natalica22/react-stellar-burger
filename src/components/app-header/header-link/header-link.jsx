@@ -1,5 +1,6 @@
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./header-link.module.css";
+import PropTypes from "prop-types";
 
 export default function HeaderLink({ extraClass, children }) {
 
@@ -8,4 +9,8 @@ export default function HeaderLink({ extraClass, children }) {
       {children}
     </Button>
   );
+}
+
+HeaderLink.propTypes = {
+  extraClass: PropTypes.string
 }
