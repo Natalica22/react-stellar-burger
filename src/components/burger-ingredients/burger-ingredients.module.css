@@ -2,6 +2,10 @@
   width: 600px;
 }
 
+.group_selector {
+  display: flex;
+}
+
 .groups {
   overflow-y: auto;
   max-height: calc(100vh - 284px);

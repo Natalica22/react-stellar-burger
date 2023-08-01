@@ -39,7 +39,7 @@ export default function BurgerIngredients({ ingrediens }) {
   return (
     <section className={styles.ingredients}>
       <h1 className="pt-10 pb-5 text text_type_main-large">Соберите бургер</h1>
-      <div style={{ display: 'flex' }}>
+      <div className={styles.group_selector}>
         <Tab value={bun} active={currentIngridientTab === bun} onClick={setCurrentIngridientTab}>
           Булки
         </Tab>
