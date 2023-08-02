@@ -17,6 +17,8 @@ export default function BurgerConstructor({ ingrediens }) {
   const bun = useMemo(() => ingrediens.find(e => e._id === orderBun), [ingrediens]);
   const orderIngrediens = useMemo(() => order.map(e => ingrediens.find(elem => elem._id === e)), [ingrediens]);
 
+  const total = useMemo(() => order.reduce((result, e) => ingrediens.find(elem => elem._id === e).price + result, bun.price * 2), [ingrediens]);
+
   const submitOrder = () => {
     setModalVisible(true);
   }
@@ -59,7 +61,7 @@ export default function BurgerConstructor({ ingrediens }) {
       </div>
       <div className={`${styles.container} pt-10`}>
         <div className={styles.price}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{total}</p>
           <CurrencyIcon type="primary" extraClass={styles.icon} />
         </div>
         <Button htmlType="button" type="primary" size="large" onClick={submitOrder}>
