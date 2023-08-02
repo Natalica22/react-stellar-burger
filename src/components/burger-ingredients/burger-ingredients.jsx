@@ -19,7 +19,7 @@ const ingredients = {
 }
 
 export default function BurgerIngredients({ ingrediens }) {
-  const [currentIngridientTab, setCurrentIngridientTab] = React.useState('bun');
+  const [currentIngridientTab, setCurrentIngridientTab] = React.useState(bun);
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
   const closeModal = () => {
