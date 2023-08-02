@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
@@ -26,15 +26,15 @@ export default function BurgerIngredients({ ingrediens }) {
     setSelectedIngredient(null);
   }
 
-  const ingredientsByType = {
-    bun: [],
-    sauce: [],
-    main: []
-  };
-
-  ingrediens.forEach(e => {
-    ingredientsByType[e.type].push(e);
-  });
+  const ingredientsByType = useMemo(() => 
+    ingrediens.reduce((result, e) => {
+      result[e.type].push(e);
+      return result;
+    }, {
+      bun: [],
+      sauce: [],
+      main: []
+    }), [ingrediens]);
 
   return (
     <section className={styles.ingredients}>
@@ -54,7 +54,7 @@ export default function BurgerIngredients({ ingrediens }) {
         {ingredientsTypes.map(e => <IngredientsGroup title={ingredients[e]} ingredients={ingredientsByType[e]} key={e} setSelectedIngredient={setSelectedIngredient} />)}
       </div>
       {
-        selectedIngredient && 
+        selectedIngredient &&
         <Modal handleCloseClick={closeModal} title="Детали ингредиента">
           <IngredientDetails ingredient={selectedIngredient} />
         </Modal>
