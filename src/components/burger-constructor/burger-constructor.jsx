@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { 
   Button,
@@ -14,8 +14,8 @@ import OrderDetails from "../order-details/order-details";
 export default function BurgerConstructor({ ingrediens }) {
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const bun = ingrediens.find(e => e._id === orderBun);
-  const orderIngrediens = order.map(e => ingrediens.find(elem => elem._id === e));
+  const bun = useMemo(() => ingrediens.find(e => e._id === orderBun), [ingrediens]);
+  const orderIngrediens = useMemo(() => order.map(e => ingrediens.find(elem => elem._id === e)), [ingrediens]);
 
   const submitOrder = () => {
     setModalVisible(true);
