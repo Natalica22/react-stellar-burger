@@ -32,7 +32,7 @@ export default function BurgerConstructor({ ingrediens }) {
       <div className={styles.ingredients}>
         <ConstructorElement
           type="top"
-          isLocked={true}
+          isLocked
           text={bun.name + " (верх)"}
           price={bun.price}
           thumbnail={bun.image}
@@ -52,7 +52,7 @@ export default function BurgerConstructor({ ingrediens }) {
         </div>
         <ConstructorElement
           type="bottom"
-          isLocked={true}
+          isLocked
           text={bun.name + " (низ)"}
           price={bun.price}
           thumbnail={bun.image}
