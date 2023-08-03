@@ -1,0 +1,44 @@
+.burger {
+  width: 600px;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  column-gap: calc(var(--offset-base-size) * 10);
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.price {
+  display: flex;
+  column-gap: calc(var(--offset-base-size) * 2);
+  align-items: center;
+}
+
+.icon {
+  height: 36px;
+  width: 36px;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 4);
+}
+
+.ingredient {
+  background-color: #1C1C21;
+}
+
+.dragable_ingredient {
+  display: flex;
+  column-gap: calc(var(--offset-base-size) * 2);
+  align-items: center;
+}
+
+.group {
+  composes: ingredients;
+  overflow-y: auto;
+  max-height: calc(100vh - 576px);
+}
