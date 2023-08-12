@@ -6,17 +6,18 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import styles from "./app.module.css";
 import { loadIngrediens } from "../../utils/api";
 
+import { IngredientsContext } from "../../services/ingredients-context";
+
 function App() {
-  const [state, setState] = React.useState({
-    ingrediens: [],
-    loaded: false
-  })
+  const [loaded, setLoaded] = React.useState(false);
+
+  const [ingredients, setIngredients] = React.useState([]);
 
   React.useEffect(() => {
     const getIngrediens = async () => {
-      setState({ ...state, loaded: false });
-      const ingrediens = await loadIngrediens();
-      setState({ ingrediens: ingrediens, loaded: true });
+      setLoaded(false);
+      setIngredients(await loadIngrediens());
+      setLoaded(true);
     }
 
     getIngrediens();
@@ -26,10 +27,12 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       {
-        state.loaded &&
+        loaded &&
         <main className={styles.main}>
-          <BurgerIngredients ingrediens={state.ingrediens} />
-          <BurgerConstructor ingrediens={state.ingrediens} />
+          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </IngredientsContext.Provider>
         </main>
       }
     </div>

@@ -7,17 +7,18 @@ import {
   DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { order, orderBun, orderData } from "../../utils/data";
 import styles from "./burger-constructor.module.css";
-import { ingredientArrayPropType } from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import { IngredientsContext } from "../../services/ingredients-context";
 
-export default function BurgerConstructor({ ingrediens }) {
+export default function BurgerConstructor() {
+  const { ingredients } = React.useContext(IngredientsContext);
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const bun = useMemo(() => ingrediens.find(e => e._id === orderBun), [ingrediens]);
-  const orderIngrediens = useMemo(() => order.map(e => ingrediens.find(elem => elem._id === e)), [ingrediens]);
+  const bun = useMemo(() => ingredients.find(e => e._id === orderBun), [ingredients]);
+  const orderIngredients = useMemo(() => order.map(e => ingredients.find(elem => elem._id === e)), [ingredients]);
 
-  const total = useMemo(() => order.reduce((result, e) => ingrediens.find(elem => elem._id === e).price + result, bun.price * 2), [ingrediens]);
+  const total = useMemo(() => order.reduce((result, e) => ingredients.find(elem => elem._id === e).price + result, bun.price * 2), [ingredients]);
 
   const submitOrder = () => {
     setModalVisible(true);
@@ -39,7 +40,7 @@ export default function BurgerConstructor({ ingrediens }) {
           extraClass={`${styles.ingredient} ml-8`}
         />
         <div className={`${styles.group} custom-scroll`}>
-          {orderIngrediens.map((e, i) =>
+          {orderIngredients.map((e, i) =>
             <div className={styles.dragable_ingredient} key={i}>
               <DragIcon type="primary" />
               <ConstructorElement
@@ -76,8 +77,4 @@ export default function BurgerConstructor({ ingrediens }) {
       }
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  ingrediens: ingredientArrayPropType.isRequired
 }
