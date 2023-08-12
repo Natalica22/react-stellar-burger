@@ -7,11 +7,17 @@ import styles from "./app.module.css";
 import { loadIngrediens } from "../../utils/api";
 
 import { IngredientsContext } from "../../services/ingredients-context";
+import { OrderContext } from "../../services/order-context";
 
 function App() {
   const [loaded, setLoaded] = React.useState(false);
 
   const [ingredients, setIngredients] = React.useState([]);
+
+  const [order, setOrder] = React.useState({
+    bun: null,
+    ingredients: []
+  });
 
   React.useEffect(() => {
     const getIngrediens = async () => {
@@ -21,7 +27,7 @@ function App() {
     }
 
     getIngrediens();
-  }, [])
+  }, []);
 
   return (
     <div className={styles.app}>
@@ -30,8 +36,10 @@ function App() {
         loaded &&
         <main className={styles.main}>
           <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            <OrderContext.Provider value={{ order, setOrder }}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </OrderContext.Provider>
           </IngredientsContext.Provider>
         </main>
       }

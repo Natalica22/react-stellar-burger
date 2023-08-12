@@ -1,12 +1,20 @@
+import React from "react";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-card.module.css";
 import { ingredientPropType } from "../../../utils/prop-types";
 import PropTypes from "prop-types";
+import { OrderContext } from "../../../services/order-context";
 
 export default function IngredientCard({ ingredient, setSelectedIngredient }) {
-
+  const { order, setOrder } = React.useContext(OrderContext);
+  
   const onClick = () => {
-    setSelectedIngredient(ingredient);
+    if (ingredient.type === "bun") {
+      setOrder({ ...order, bun: ingredient })
+    } else {
+      setOrder({ ...order, ingredients: [...order.ingredients, ingredient] })
+    }
+    // setSelectedIngredient(ingredient);
   }
 
   return (
