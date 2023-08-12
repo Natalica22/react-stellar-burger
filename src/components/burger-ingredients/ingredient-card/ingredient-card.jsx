@@ -6,13 +6,13 @@ import PropTypes from "prop-types";
 import { OrderContext } from "../../../services/order-context";
 
 export default function IngredientCard({ ingredient, setSelectedIngredient }) {
-  const { order, setOrder } = React.useContext(OrderContext);
+  const { dispatchOrder } = React.useContext(OrderContext);
   
   const onClick = () => {
     if (ingredient.type === "bun") {
-      setOrder({ ...order, bun: ingredient })
+      dispatchOrder({ type: "changeBun", ingredient: ingredient });
     } else {
-      setOrder({ ...order, ingredients: [...order.ingredients, ingredient] })
+      dispatchOrder({ type: "addIngredient", ingredient: ingredient });
     }
     // setSelectedIngredient(ingredient);
   }

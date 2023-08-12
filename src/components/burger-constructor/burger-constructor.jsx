@@ -12,7 +12,7 @@ import OrderDetails from "../order-details/order-details";
 import { OrderContext } from "../../services/order-context";
 
 export default function BurgerConstructor() {
-  const { order, setOrder } = React.useContext(OrderContext);
+  const { order } = React.useContext(OrderContext);
 
   const [modalVisible, setModalVisible] = React.useState(false);
 

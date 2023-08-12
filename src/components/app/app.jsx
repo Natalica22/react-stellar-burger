@@ -9,12 +9,23 @@ import { loadIngrediens } from "../../utils/api";
 import { IngredientsContext } from "../../services/ingredients-context";
 import { OrderContext } from "../../services/order-context";
 
+function orderReducer(order, action) {
+  switch (action.type) {
+    case "changeBun":
+      return { ...order, bun: action.ingredient };
+    case "addIngredient":
+      return { ...order, ingredients: [...order.ingredients, action.ingredient] };
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
+
 function App() {
   const [loaded, setLoaded] = React.useState(false);
 
   const [ingredients, setIngredients] = React.useState([]);
 
-  const [order, setOrder] = React.useState({
+  const [order, dispatchOrder] = React.useReducer(orderReducer, {
     bun: null,
     ingredients: []
   });
@@ -36,7 +47,7 @@ function App() {
         loaded &&
         <main className={styles.main}>
           <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-            <OrderContext.Provider value={{ order, setOrder }}>
+            <OrderContext.Provider value={{ order, dispatchOrder }}>
               <BurgerIngredients />
               <BurgerConstructor />
             </OrderContext.Provider>
