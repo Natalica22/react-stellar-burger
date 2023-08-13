@@ -17,15 +17,12 @@ export default function BurgerConstructor() {
   const [orderDetails, setOrderDetails] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const bun = useMemo(() => order.bun, [order]);
-  const orderIngredients = useMemo(() => order.ingredients, [order]);
-
-  const total = useMemo(() => order.ingredients.reduce((result, e) => e.price + result, bun ? bun.price * 2 : 0), [order]);
+  const total = useMemo(() => order.ingredients.reduce((result, e) => e.price + result, order.bun ? order.bun.price * 2 : 0), [order]);
 
   const canOrder = useMemo(() => order.bun && order.ingredients.length > 0, [order]);
 
   const submitOrder = () => {
-    createOrder([bun, ...orderIngredients].map(e => e._id))
+    createOrder([order.bun, ...order.ingredients].map(e => e._id))
       .then(createdOrder => {
         setOrderDetails(createdOrder.order);
         setModalVisible(true);
@@ -40,18 +37,18 @@ export default function BurgerConstructor() {
     <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
       <div className={styles.ingredients}>
         {
-          bun &&
+          order.bun &&
           <ConstructorElement
             type="top"
             isLocked
-            text={bun.name + " (верх)"}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={order.bun.name + " (верх)"}
+            price={order.bun.price}
+            thumbnail={order.bun.image}
             extraClass={`${styles.ingredient} ml-8`}
           />
         }
         <div className={`${styles.group} custom-scroll`}>
-          {orderIngredients.map((e, i) =>
+          {order.ingredients.map((e, i) =>
             <div className={styles.dragable_ingredient} key={i}>
               <DragIcon type="primary" />
               <ConstructorElement
@@ -63,13 +60,13 @@ export default function BurgerConstructor() {
             </div>)}
         </div>
         {
-          bun &&
+          order.bun &&
           <ConstructorElement
             type="bottom"
             isLocked
-            text={bun.name + " (низ)"}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={order.bun.name + " (низ)"}
+            price={order.bun.price}
+            thumbnail={order.bun.image}
             extraClass={`${styles.ingredient} ml-8`}
           />
         }
