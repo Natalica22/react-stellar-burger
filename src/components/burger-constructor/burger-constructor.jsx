@@ -5,15 +5,16 @@ import {
   ConstructorElement,
   CurrencyIcon,
   DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { orderData } from "../../utils/data";
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { OrderContext } from "../../services/order-context";
+import { createOrder } from "../../utils/api";
 
 export default function BurgerConstructor() {
   const { order } = React.useContext(OrderContext);
 
+  const [orderDetails, setOrderDetails] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const bun = useMemo(() => order.bun, [order]);
@@ -22,7 +23,11 @@ export default function BurgerConstructor() {
   const total = useMemo(() => order.ingredients.reduce((result, e) => e.price + result, bun ? bun.price * 2 : 0), [order]);
 
   const submitOrder = () => {
-    setModalVisible(true);
+    createOrder([bun, ...orderIngredients].map(e => e._id))
+      .then(createdOrder => {
+        setOrderDetails(createdOrder.order);
+        setModalVisible(true);
+      });
   }
 
   const closeModal = () => {
@@ -79,7 +84,7 @@ export default function BurgerConstructor() {
       {
         modalVisible && 
         <Modal handleCloseClick={closeModal}>
-          <OrderDetails orderData={orderData} />
+          <OrderDetails orderData={orderDetails} />
         </Modal>
       }
     </section>

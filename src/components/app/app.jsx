@@ -33,7 +33,7 @@ function App() {
   React.useEffect(() => {
     const getIngrediens = async () => {
       setLoaded(false);
-      setIngredients(await loadIngrediens());
+      setIngredients((await loadIngrediens()).data);
       setLoaded(true);
     }
 

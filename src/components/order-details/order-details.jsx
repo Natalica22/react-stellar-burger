@@ -6,7 +6,7 @@ export default function OrderDetails({ orderData }) {
 
   return (
     <>
-      <h2 className={`text text_type_digits-large pt-4 pb-8 ${styles.order_number}`}>{orderData._id}</h2>
+      <h2 className={`text text_type_digits-large pt-4 pb-8 ${styles.order_number}`}>{orderData.number}</h2>
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <img src={doneImage} alt="оформлено" className="pt-15 pb-15"/>
       <p className="text text_type_main-default pb-2">Ваш заказ начали готовить</p>
