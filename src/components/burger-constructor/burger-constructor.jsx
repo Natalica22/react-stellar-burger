@@ -22,6 +22,8 @@ export default function BurgerConstructor() {
 
   const total = useMemo(() => order.ingredients.reduce((result, e) => e.price + result, bun ? bun.price * 2 : 0), [order]);
 
+  const canOrder = useMemo(() => order.bun && order.ingredients.length > 0, [order]);
+
   const submitOrder = () => {
     createOrder([bun, ...orderIngredients].map(e => e._id))
       .then(createdOrder => {
@@ -77,7 +79,7 @@ export default function BurgerConstructor() {
           <p className="text text_type_digits-medium">{total}</p>
           <CurrencyIcon type="primary" extraClass={styles.icon} />
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={submitOrder}>
+        <Button htmlType="button" type="primary" size="large" onClick={submitOrder} disabled={!canOrder}>
           Оформить заказ
         </Button>
       </div>
