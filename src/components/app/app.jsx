@@ -6,30 +6,52 @@ import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import styles from "./app.module.css";
 import { loadIngrediens } from "../../utils/api";
 
+import { IngredientsContext } from "../../services/ingredients-context";
+import { OrderContext } from "../../services/order-context";
+
+function orderReducer(order, action) {
+  switch (action.type) {
+    case "changeBun":
+      return { ...order, bun: action.ingredient };
+    case "addIngredient":
+      return { ...order, ingredients: [...order.ingredients, action.ingredient] };
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
+
 function App() {
-  const [state, setState] = React.useState({
-    ingrediens: [],
-    loaded: false
-  })
+  const [loaded, setLoaded] = React.useState(false);
+
+  const [ingredients, setIngredients] = React.useState([]);
+
+  const [order, dispatchOrder] = React.useReducer(orderReducer, {
+    bun: null,
+    ingredients: []
+  });
 
   React.useEffect(() => {
     const getIngrediens = async () => {
-      setState({ ...state, loaded: false });
-      const ingrediens = await loadIngrediens();
-      setState({ ingrediens: ingrediens, loaded: true });
+      setLoaded(false);
+      setIngredients((await loadIngrediens()).data);
+      setLoaded(true);
     }
 
     getIngrediens();
-  }, [])
+  }, []);
 
   return (
     <div className={styles.app}>
       <AppHeader />
       {
-        state.loaded &&
+        loaded &&
         <main className={styles.main}>
-          <BurgerIngredients ingrediens={state.ingrediens} />
-          <BurgerConstructor ingrediens={state.ingrediens} />
+          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+            <OrderContext.Provider value={{ order, dispatchOrder }}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </OrderContext.Provider>
+          </IngredientsContext.Provider>
         </main>
       }
     </div>

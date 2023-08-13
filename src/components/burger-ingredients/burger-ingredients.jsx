@@ -2,23 +2,14 @@ import React, { useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
-import { ingredientArrayPropType } from "../../utils/prop-types";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { IngredientsContext } from "../../services/ingredients-context";
+import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
 
-const bun = 'bun';
-const sauce = 'sauce';
-const main = 'main';
 
-const ingredientsTypes = [bun, sauce, main];
-
-const ingredients = {
-  bun: 'Булки',
-  sauce: 'Соусы',
-  main: 'Начинки'
-}
-
-export default function BurgerIngredients({ ingrediens }) {
+export default function BurgerIngredients() {
+  const { ingredients } = React.useContext(IngredientsContext);
   const [currentIngridientTab, setCurrentIngridientTab] = React.useState(bun);
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
@@ -27,14 +18,14 @@ export default function BurgerIngredients({ ingrediens }) {
   }
 
   const ingredientsByType = useMemo(() => 
-    ingrediens.reduce((result, e) => {
+    ingredients.reduce((result, e) => {
       result[e.type].push(e);
       return result;
     }, {
       bun: [],
       sauce: [],
       main: []
-    }), [ingrediens]);
+    }), [ingredients]);
 
   return (
     <section className={styles.ingredients}>
@@ -51,7 +42,7 @@ export default function BurgerIngredients({ ingrediens }) {
         </Tab>
       </div>
       <div className={`${styles.groups} custom-scroll`}>
-        {ingredientsTypes.map(e => <IngredientsGroup title={ingredients[e]} ingredients={ingredientsByType[e]} key={e} setSelectedIngredient={setSelectedIngredient} />)}
+        {ingredientsTypes.map(e => <IngredientsGroup title={ingredientsTitles[e]} ingredients={ingredientsByType[e]} key={e} setSelectedIngredient={setSelectedIngredient} />)}
       </div>
       {
         selectedIngredient &&
@@ -61,8 +52,4 @@ export default function BurgerIngredients({ ingrediens }) {
       }
     </section>
   );
-}
-
-BurgerIngredients.propTypes = {
-  ingrediens: ingredientArrayPropType.isRequired
 }

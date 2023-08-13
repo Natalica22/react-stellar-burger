@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
+import { ingredientsTypes } from "./constants";
 
 export const ingredientPropType = PropTypes.shape({
   "_id": PropTypes.string.isRequired,
   "name": PropTypes.string.isRequired,
-  "type": PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
+  "type": PropTypes.oneOf(ingredientsTypes).isRequired,
   "proteins": PropTypes.number.isRequired,
   "fat": PropTypes.number.isRequired,
   "carbohydrates": PropTypes.number.isRequired,
@@ -18,5 +19,5 @@ export const ingredientPropType = PropTypes.shape({
 export const ingredientArrayPropType = PropTypes.arrayOf(ingredientPropType.isRequired);
 
 export const orderPropTypes = PropTypes.shape({
-  "_id": PropTypes.string.isRequired
+  "number": PropTypes.number.isRequired
 });
