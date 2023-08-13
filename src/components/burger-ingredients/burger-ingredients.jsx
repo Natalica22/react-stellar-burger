@@ -5,18 +5,8 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { IngredientsContext } from "../../services/ingredients-context";
+import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
 
-const bun = 'bun';
-const sauce = 'sauce';
-const main = 'main';
-
-const ingredientsTypes = [bun, sauce, main];
-
-const ingredientsTitles = {
-  bun: 'Булки',
-  sauce: 'Соусы',
-  main: 'Начинки'
-}
 
 export default function BurgerIngredients() {
   const { ingredients } = React.useContext(IngredientsContext);

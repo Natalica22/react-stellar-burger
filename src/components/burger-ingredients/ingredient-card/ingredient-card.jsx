@@ -4,12 +4,13 @@ import styles from "./ingredient-card.module.css";
 import { ingredientPropType } from "../../../utils/prop-types";
 import PropTypes from "prop-types";
 import { OrderContext } from "../../../services/order-context";
+import { bun } from "../../../utils/constants";
 
 export default function IngredientCard({ ingredient, setSelectedIngredient }) {
   const { dispatchOrder } = React.useContext(OrderContext);
   
   const onClick = () => {
-    if (ingredient.type === "bun") {
+    if (ingredient.type === bun) {
       dispatchOrder({ type: "changeBun", ingredient: ingredient });
     } else {
       dispatchOrder({ type: "addIngredient", ingredient: ingredient });
