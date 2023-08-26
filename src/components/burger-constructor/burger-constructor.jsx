@@ -8,21 +8,21 @@ import {
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { OrderContext } from "../../services/order-context";
 import { createOrder } from "../../utils/api";
+import { useSelector } from "react-redux";
 
 export default function BurgerConstructor() {
-  const { order } = React.useContext(OrderContext);
+  const { cart } = useSelector(store => store);
 
   const [orderDetails, setOrderDetails] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const total = useMemo(() => order.ingredients.reduce((result, e) => e.price + result, order.bun ? order.bun.price * 2 : 0), [order]);
+  const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price * 2 : 0), [cart]);
 
-  const canOrder = useMemo(() => order.bun && order.ingredients.length > 0, [order]);
+  const canOrder = useMemo(() => cart.bun && cart.ingredients.length > 0, [cart]);
 
   const submitOrder = () => {
-    createOrder([order.bun, ...order.ingredients].map(e => e._id))
+    createOrder([cart.bun, ...cart.ingredients].map(e => e._id))
       .then(createdOrder => {
         setOrderDetails(createdOrder.order);
         setModalVisible(true);
@@ -37,18 +37,18 @@ export default function BurgerConstructor() {
     <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
       <div className={styles.ingredients}>
         {
-          order.bun &&
+          cart.bun &&
           <ConstructorElement
             type="top"
             isLocked
-            text={order.bun.name + " (верх)"}
-            price={order.bun.price}
-            thumbnail={order.bun.image}
+            text={cart.bun.name + " (верх)"}
+            price={cart.bun.price}
+            thumbnail={cart.bun.image}
             extraClass={`${styles.ingredient} ml-8`}
           />
         }
         <div className={`${styles.group} custom-scroll`}>
-          {order.ingredients.map((e, i) =>
+          {cart.ingredients.map((e, i) =>
             <div className={styles.dragable_ingredient} key={i}>
               <DragIcon type="primary" />
               <ConstructorElement
@@ -60,13 +60,13 @@ export default function BurgerConstructor() {
             </div>)}
         </div>
         {
-          order.bun &&
+          cart.bun &&
           <ConstructorElement
             type="bottom"
             isLocked
-            text={order.bun.name + " (низ)"}
-            price={order.bun.price}
-            thumbnail={order.bun.image}
+            text={cart.bun.name + " (низ)"}
+            price={cart.bun.price}
+            thumbnail={cart.bun.image}
             extraClass={`${styles.ingredient} ml-8`}
           />
         }

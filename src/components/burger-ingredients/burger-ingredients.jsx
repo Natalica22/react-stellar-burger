@@ -5,16 +5,19 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredient-details";
 
 
 export default function BurgerIngredients() {
+  const dispatch = useDispatch();
+
   const { ingredients } = useSelector(store => store.burgerIngredients);
   const [currentIngridientTab, setCurrentIngridientTab] = React.useState(bun);
-  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
+  const selectedIngredient = useSelector(store => store.ingredientDetails);
 
   const closeModal = () => {
-    setSelectedIngredient(null);
+    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
   }
 
   const ingredientsByType = useMemo(() => 
@@ -42,7 +45,7 @@ export default function BurgerIngredients() {
         </Tab>
       </div>
       <div className={`${styles.groups} custom-scroll`}>
-        {ingredientsTypes.map(e => <IngredientsGroup title={ingredientsTitles[e]} ingredients={ingredientsByType[e]} key={e} setSelectedIngredient={setSelectedIngredient} />)}
+        {ingredientsTypes.map(e => <IngredientsGroup title={ingredientsTitles[e]} ingredients={ingredientsByType[e]} key={e} />)}
       </div>
       {
         selectedIngredient &&

@@ -6,29 +6,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import styles from "./app.module.css";
 
-import { OrderContext } from "../../services/order-context";
 import { getIngrediens } from "../../services/actions/burger-ingredients";
-
-function orderReducer(order, action) {
-  switch (action.type) {
-    case "changeBun":
-      return { ...order, bun: action.ingredient };
-    case "addIngredient":
-      return { ...order, ingredients: [...order.ingredients, action.ingredient] };
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
 
 function App() {
   const dispatch = useDispatch();
 
   const { loaded } = useSelector(store => store.burgerIngredients);
-
-  const [order, dispatchOrder] = React.useReducer(orderReducer, {
-    bun: null,
-    ingredients: []
-  });
 
   React.useEffect(
     () => {
@@ -43,10 +26,8 @@ function App() {
       {
         loaded &&
         <main className={styles.main}>
-          <OrderContext.Provider value={{ order, dispatchOrder }}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </OrderContext.Provider>
+          <BurgerIngredients />
+          <BurgerConstructor />
         </main>
       }
     </div>

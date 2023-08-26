@@ -1,21 +1,17 @@
-import React from "react";
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-card.module.css";
 import { ingredientPropType } from "../../../utils/prop-types";
 import PropTypes from "prop-types";
-import { OrderContext } from "../../../services/order-context";
-import { bun } from "../../../utils/constants";
+import { useDispatch } from "react-redux";
+import { ADD_INGREDIENT } from "../../../services/actions/cart";
+import { OPEN_INGREDIENT_DETAILS } from "../../../services/actions/ingredient-details";
 
-export default function IngredientCard({ ingredient, setSelectedIngredient }) {
-  const { dispatchOrder } = React.useContext(OrderContext);
+export default function IngredientCard({ ingredient }) {
+  const dispatch = useDispatch();
   
   const onClick = () => {
-    if (ingredient.type === bun) {
-      dispatchOrder({ type: "changeBun", ingredient: ingredient });
-    } else {
-      dispatchOrder({ type: "addIngredient", ingredient: ingredient });
-    }
-    // setSelectedIngredient(ingredient);
+    dispatch({ type: ADD_INGREDIENT, ingredient: ingredient })
+    // dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: ingredient });
   }
 
   return (
@@ -33,5 +29,4 @@ export default function IngredientCard({ ingredient, setSelectedIngredient }) {
 
 IngredientCard.propTypes = {
   ingredient: ingredientPropType.isRequired,
-  setSelectedIngredient: PropTypes.func.isRequired
 }
