@@ -1,3 +1,6 @@
-export const rootReducer = (state, action) => {
-  return state;
-}
+import { combineReducers } from "redux";
+import { burgerIngredientsReducer } from "./burger-ingredients";
+
+export const rootReducer = combineReducers({
+  burgerIngredients: burgerIngredientsReducer,
+})

@@ -2,12 +2,12 @@ import React from "react";
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from "./app.module.css";
-import { loadIngrediens } from "../../utils/api";
 
-import { IngredientsContext } from "../../services/ingredients-context";
 import { OrderContext } from "../../services/order-context";
+import { getIngrediens } from "../../services/actions/burger-ingredients";
 
 function orderReducer(order, action) {
   switch (action.type) {
@@ -21,24 +21,21 @@ function orderReducer(order, action) {
 }
 
 function App() {
-  const [loaded, setLoaded] = React.useState(false);
+  const dispatch = useDispatch();
 
-  const [ingredients, setIngredients] = React.useState([]);
+  const { loaded } = useSelector(store => store.burgerIngredients);
 
   const [order, dispatchOrder] = React.useReducer(orderReducer, {
     bun: null,
     ingredients: []
   });
 
-  React.useEffect(() => {
-    const getIngrediens = async () => {
-      setLoaded(false);
-      setIngredients((await loadIngrediens()).data);
-      setLoaded(true);
-    }
-
-    getIngrediens();
-  }, []);
+  React.useEffect(
+    () => {
+      dispatch(getIngrediens());
+    },
+    [dispatch]
+  );
 
   return (
     <div className={styles.app}>
@@ -46,12 +43,10 @@ function App() {
       {
         loaded &&
         <main className={styles.main}>
-          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-            <OrderContext.Provider value={{ order, dispatchOrder }}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </OrderContext.Provider>
-          </IngredientsContext.Provider>
+          <OrderContext.Provider value={{ order, dispatchOrder }}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </OrderContext.Provider>
         </main>
       }
     </div>

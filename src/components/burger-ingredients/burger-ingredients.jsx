@@ -4,12 +4,12 @@ import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { IngredientsContext } from "../../services/ingredients-context";
 import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
+import { useSelector } from 'react-redux';
 
 
 export default function BurgerIngredients() {
-  const { ingredients } = React.useContext(IngredientsContext);
+  const { ingredients } = useSelector(store => store.burgerIngredients);
   const [currentIngridientTab, setCurrentIngridientTab] = React.useState(bun);
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
