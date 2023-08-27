@@ -1,20 +1,21 @@
+import { useSelector } from "react-redux";
 import doneImage from "../../images/done.svg";
-import { orderPropTypes } from "../../utils/prop-types";
 import styles from "./order-details.module.css";
 
-export default function OrderDetails({ orderData }) {
+export default function OrderDetails() {
+  const { order } = useSelector(store => store.cart);
 
   return (
     <>
-      <h2 className={`text text_type_digits-large pt-4 pb-8 ${styles.order_number}`}>{orderData.number}</h2>
+      {
+        (order.number) ? 
+        <h2 className={`text text_type_digits-large pt-4 pb-8 ${styles.order_number}`}>{order.number}</h2> :
+        <h2 className={`text text_type_main-large pt-4 pb-8 ${styles.order_number}`}>Оформление заказа...</h2>
+      }
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <img src={doneImage} alt="оформлено" className="pt-15 pb-15"/>
       <p className="text text_type_main-default pb-2">Ваш заказ начали готовить</p>
       <p className="text text_type_main-default text_color_inactive pb-30">Дождитесь готовности на орбитальной станции</p>
     </>
   );
-}
-
-OrderDetails.propTypes = {
-  orderData: orderPropTypes.isRequired
 }

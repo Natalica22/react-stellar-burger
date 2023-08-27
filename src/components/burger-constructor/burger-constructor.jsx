@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 
 import { 
   Button,
@@ -8,29 +8,25 @@ import {
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { createOrder } from "../../utils/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { CLOSE_ORDER_MODAL, sendOrder } from "../../services/actions/cart";
 
 export default function BurgerConstructor() {
-  const { cart } = useSelector(store => store);
+  const dispatch = useDispatch();
 
-  const [orderDetails, setOrderDetails] = React.useState(null);
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const { cart } = useSelector(store => store);
+  const modalVisible = cart.order;
 
   const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price * 2 : 0), [cart]);
 
   const canOrder = useMemo(() => cart.bun && cart.ingredients.length > 0, [cart]);
 
   const submitOrder = () => {
-    createOrder([cart.bun, ...cart.ingredients].map(e => e._id))
-      .then(createdOrder => {
-        setOrderDetails(createdOrder.order);
-        setModalVisible(true);
-      });
+    dispatch(sendOrder([cart.bun, ...cart.ingredients].map(e => e._id)));
   }
 
   const closeModal = () => {
-    setModalVisible(false);
+    dispatch({ type: CLOSE_ORDER_MODAL });
   }
 
   return (
@@ -83,7 +79,7 @@ export default function BurgerConstructor() {
       {
         modalVisible && 
         <Modal handleCloseClick={closeModal}>
-          <OrderDetails orderData={orderDetails} />
+          <OrderDetails />
         </Modal>
       }
     </section>
