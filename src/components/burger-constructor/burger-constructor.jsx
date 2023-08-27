@@ -9,7 +9,7 @@ import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_ORDER_MODAL, sendOrder } from "../../services/actions/cart";
+import { CLOSE_ORDER_MODAL, DELETE_INGREDIENT, sendOrder } from "../../services/actions/cart";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -27,6 +27,10 @@ export default function BurgerConstructor() {
 
   const closeModal = () => {
     dispatch({ type: CLOSE_ORDER_MODAL });
+  }
+
+  const deleteIngredient = (i) => {
+    dispatch({ type: DELETE_INGREDIENT, index: i });
   }
 
   return (
@@ -52,6 +56,7 @@ export default function BurgerConstructor() {
                 price={e.price}
                 thumbnail={e.image}
                 extraClass={styles.ingredient}
+                handleClose={() => deleteIngredient(i)}
               />
             </div>)}
         </div>

@@ -4,7 +4,8 @@ import {
   CLOSE_ORDER_MODAL,
   CREATE_ORDER_ERROR,
   CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS
+  CREATE_ORDER_SUCCESS,
+  DELETE_INGREDIENT
 } from "../actions/cart";
 
 const initialState = {
@@ -27,6 +28,14 @@ export const cartReducer = (state = initialState, action) => {
           ingredients: [...state.ingredients, action.ingredient]
         }
       }
+    }
+    case DELETE_INGREDIENT: {
+      const newIngredients = [...state.ingredients];
+      newIngredients.splice(action.index, 1);
+      return {
+        ...state,
+        ingredients: newIngredients
+      };
     }
     case CREATE_ORDER_REQUEST: {
       return {

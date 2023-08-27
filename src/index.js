@@ -16,13 +16,16 @@ const composeEnhancers =
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
 const initialState = {
-  ingredients: [],
+  burgerIngredients: {
+    loaded: false,
+    ingredients: []
+  },
   cart: {
     bun: null,
     ingredients: [],
     order: null
   },
-  viewedIngredient: null,
+  ingredientDetails: null,
 }
 
 const store = createStore(rootReducer, initialState, enhancer);
