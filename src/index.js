@@ -15,7 +15,17 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-const store = createStore(rootReducer, enhancer);
+const initialState = {
+  ingredients: [],
+  cart: {
+    bun: null,
+    ingredients: [],
+    order: null
+  },
+  viewedIngredient: null,
+}
+
+const store = createStore(rootReducer, initialState, enhancer);
 
 ReactDOM.render(
   <React.StrictMode>

@@ -2,7 +2,7 @@ import { bun } from "../../utils/constants";
 import {
   ADD_INGREDIENT,
   CLOSE_ORDER_MODAL,
-  CREATE_ORDER_FAILED,
+  CREATE_ORDER_ERROR,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS
 } from "../actions/cart";
@@ -40,7 +40,7 @@ export const cartReducer = (state = initialState, action) => {
         order: action.order
       };
     }
-    case CREATE_ORDER_FAILED: {
+    case CREATE_ORDER_ERROR: {
       return {
         ...state,
         order: null
