@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-
+import { useDrop } from 'react-dnd';
 import { 
   Button,
   ConstructorElement,
@@ -9,7 +9,7 @@ import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_ORDER_MODAL, DELETE_INGREDIENT, sendOrder } from "../../services/actions/cart";
+import { ADD_INGREDIENT, CLOSE_ORDER_MODAL, DELETE_INGREDIENT, sendOrder } from "../../services/actions/cart";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -33,8 +33,18 @@ export default function BurgerConstructor() {
     dispatch({ type: DELETE_INGREDIENT, index: i });
   }
 
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: monitor => ({
+      isHover: monitor.isOver()
+    }),
+    drop(ingredient) {
+      dispatch({ type: ADD_INGREDIENT, ingredient: ingredient });
+    },
+  });
+
   return (
-    <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
+    <section className={`${styles.burger} pt-25 pb-13 pl-4`} ref={dropTarget}>
       <div className={styles.ingredients}>
         {
           cart.bun &&

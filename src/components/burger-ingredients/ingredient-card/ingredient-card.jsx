@@ -2,16 +2,16 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import styles from "./ingredient-card.module.css";
 import { ingredientPropType } from "../../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_INGREDIENT } from "../../../services/actions/cart";
+import { useDrag } from 'react-dnd';
 import { OPEN_INGREDIENT_DETAILS } from "../../../services/actions/ingredient-details";
 import { bun } from "../../../utils/constants";
+
 
 export default function IngredientCard({ ingredient }) {
   const dispatch = useDispatch();
   
   const onClick = () => {
-    dispatch({ type: ADD_INGREDIENT, ingredient: ingredient })
-    // dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: ingredient });
+    dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: ingredient });
   }
 
   const count = useSelector(store => {
@@ -22,8 +22,16 @@ export default function IngredientCard({ ingredient }) {
     }
   })
 
+  const [{ opacity }, ref] = useDrag({
+    type: 'ingredient',
+    item: ingredient,
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.3 : 1
+    })
+  });
+
   return (
-    <li className={styles.card} onClick={onClick}>
+    <li ref={ref} className={styles.card} onClick={onClick} style={{ opacity }}>
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <img src={ingredient.image} alt={ingredient.name} className={styles.image}/>
       <div className={`${styles.price}  pt-2 pb-2`}>
