@@ -10,6 +10,8 @@ export const CREATE_ORDER_ERROR = 'CREATE_ORDER_ERROR';
 
 export const CLOSE_ORDER_MODAL = 'CLOSE_ORDER_MODAL';
 
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+
 export function sendOrder(ingredients) {
   return function(dispatch) {
     dispatch({

@@ -1,15 +1,16 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useDrop } from 'react-dnd';
-import { 
+import {
   Button,
   ConstructorElement,
-  CurrencyIcon,
-  DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+  CurrencyIcon
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_INGREDIENT, CLOSE_ORDER_MODAL, DELETE_INGREDIENT, sendOrder } from "../../services/actions/cart";
+import { ADD_INGREDIENT, CLOSE_ORDER_MODAL, MOVE_INGREDIENT, sendOrder } from "../../services/actions/cart";
+import DraggableConstructorElement from "./draggable-constructor-element/draggable-constructor-element";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -29,10 +30,6 @@ export default function BurgerConstructor() {
     dispatch({ type: CLOSE_ORDER_MODAL });
   }
 
-  const deleteIngredient = (i) => {
-    dispatch({ type: DELETE_INGREDIENT, index: i });
-  }
-
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     collect: monitor => ({
@@ -42,6 +39,10 @@ export default function BurgerConstructor() {
       dispatch({ type: ADD_INGREDIENT, ingredient: ingredient });
     },
   });
+
+  const moveElement = useCallback((dragIndex, hoverIndex) => {
+    dispatch({ type: MOVE_INGREDIENT, fromIndex: dragIndex, toIndex: hoverIndex });
+  }, [dispatch]);
 
   return (
     <section className={`${styles.burger} pt-25 pb-13 pl-4`} ref={dropTarget}>
@@ -59,16 +60,8 @@ export default function BurgerConstructor() {
         }
         <div className={`${styles.group} custom-scroll`}>
           {cart.ingredients.map((e, i) =>
-            <div className={styles.dragable_ingredient} key={i}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={e.name}
-                price={e.price}
-                thumbnail={e.image}
-                extraClass={styles.ingredient}
-                handleClose={() => deleteIngredient(i)}
-              />
-            </div>)}
+            <DraggableConstructorElement key={e.uid} ingredient={e} index={i} moveElement={moveElement} />
+          )}
         </div>
         {
           cart.bun &&
@@ -92,7 +85,7 @@ export default function BurgerConstructor() {
         </Button>
       </div>
       {
-        modalVisible && 
+        modalVisible &&
         <Modal handleCloseClick={closeModal}>
           <OrderDetails />
         </Modal>

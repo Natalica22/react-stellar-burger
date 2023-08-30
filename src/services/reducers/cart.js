@@ -5,8 +5,11 @@ import {
   CREATE_ORDER_ERROR,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
-  DELETE_INGREDIENT
+  DELETE_INGREDIENT,
+  MOVE_INGREDIENT
 } from "../actions/cart";
+
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   bun: null,
@@ -25,7 +28,7 @@ export const cartReducer = (state = initialState, action) => {
       } else {
         return {
           ...state,
-          ingredients: [...state.ingredients, action.ingredient]
+          ingredients: [...state.ingredients, { ...action.ingredient, uid: uuidv4() }]
         }
       }
     }
@@ -59,6 +62,14 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         order: null
+      };
+    }
+    case MOVE_INGREDIENT: {
+      const ingredients = [...state.ingredients];
+      ingredients.splice(action.toIndex, 0, ingredients.splice(action.fromIndex, 1)[0]);
+      return {
+        ...state,
+        ingredients: ingredients
       };
     }
     default: {
