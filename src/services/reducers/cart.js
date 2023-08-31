@@ -1,18 +1,14 @@
 import { bun } from "../../utils/constants";
 import {
   ADD_INGREDIENT,
-  CLOSE_ORDER_MODAL,
-  CREATE_ORDER_ERROR,
-  CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS,
+  CLEAN_CART,
   DELETE_INGREDIENT,
   MOVE_INGREDIENT
 } from "../actions/cart";
 
 const initialState = {
   bun: null,
-  ingredients: [],
-  order: null
+  ingredients: []
 }
 
 export const cartReducer = (state = initialState, action) => {
@@ -38,29 +34,8 @@ export const cartReducer = (state = initialState, action) => {
         ingredients: newIngredients
       };
     }
-    case CREATE_ORDER_REQUEST: {
-      return {
-        ...state,
-        order: {}
-      };
-    }
-    case CREATE_ORDER_SUCCESS: {
-      return {
-        ...initialState,
-        order: action.order
-      };
-    }
-    case CREATE_ORDER_ERROR: {
-      return {
-        ...state,
-        order: null
-      };
-    }
-    case CLOSE_ORDER_MODAL: {
-      return {
-        ...state,
-        order: null
-      };
+    case CLEAN_CART: {
+      return initialState;
     }
     case MOVE_INGREDIENT: {
       const ingredients = [...state.ingredients];

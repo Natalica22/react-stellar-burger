@@ -9,17 +9,19 @@ import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { ADD_INGREDIENT, CLOSE_ORDER_MODAL, MOVE_INGREDIENT, sendOrder } from "../../services/actions/cart";
+import { ADD_INGREDIENT, MOVE_INGREDIENT } from "../../services/actions/cart";
 import DraggableConstructorElement from "./draggable-constructor-element/draggable-constructor-element";
 import { v4 as uuidv4 } from 'uuid';
+import { CLOSE_ORDER_MODAL, sendOrder } from "../../services/actions/order";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
 
   const getCart = store => store.cart;
-
   const cart = useSelector(getCart);
-  const modalVisible = cart.order;
+
+  const getOrder = store => store.order;
+  const modalVisible = useSelector(getOrder);
 
   const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price * 2 : 0), [cart]);
 
