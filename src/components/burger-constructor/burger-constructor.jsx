@@ -11,6 +11,7 @@ import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { ADD_INGREDIENT, CLOSE_ORDER_MODAL, MOVE_INGREDIENT, sendOrder } from "../../services/actions/cart";
 import DraggableConstructorElement from "./draggable-constructor-element/draggable-constructor-element";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export default function BurgerConstructor() {
       isHover: monitor.isOver()
     }),
     drop(ingredient) {
-      dispatch({ type: ADD_INGREDIENT, ingredient: ingredient });
+      dispatch({ type: ADD_INGREDIENT, ingredient: ingredient, uid: uuidv4() });
     },
   });
 

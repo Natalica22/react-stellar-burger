@@ -9,8 +9,6 @@ import {
   MOVE_INGREDIENT
 } from "../actions/cart";
 
-import { v4 as uuidv4 } from 'uuid';
-
 const initialState = {
   bun: null,
   ingredients: [],
@@ -28,7 +26,7 @@ export const cartReducer = (state = initialState, action) => {
       } else {
         return {
           ...state,
-          ingredients: [...state.ingredients, { ...action.ingredient, uid: uuidv4() }]
+          ingredients: [...state.ingredients, { ...action.ingredient, uid: action.uid }]
         }
       }
     }
