@@ -13,8 +13,11 @@ import { useInView } from 'react-intersection-observer';
 export default function BurgerIngredients() {
   const dispatch = useDispatch();
 
-  const { ingredients } = useSelector(store => store.burgerIngredients);
-  const selectedIngredient = useSelector(store => store.ingredientDetails);
+  const getIngrediens = store => store.burgerIngredients.ingredients;
+  const ingredients = useSelector(getIngrediens);
+
+  const getIngredientDetails = store => store.ingredientDetails
+  const selectedIngredient = useSelector(getIngredientDetails);
 
   const closeModal = () => {
     dispatch({ type: CLOSE_INGREDIENT_DETAILS });

@@ -16,7 +16,9 @@ import { v4 as uuidv4 } from 'uuid';
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
 
-  const { cart } = useSelector(store => store);
+  const getCart = store => store.cart;
+
+  const cart = useSelector(getCart);
   const modalVisible = cart.order;
 
   const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price * 2 : 0), [cart]);

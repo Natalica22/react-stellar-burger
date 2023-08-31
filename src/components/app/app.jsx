@@ -13,7 +13,9 @@ import { getIngrediens } from "../../services/actions/burger-ingredients";
 function App() {
   const dispatch = useDispatch();
 
-  const { loaded } = useSelector(store => store.burgerIngredients);
+  const getBurgerIngredientsLoaded = store => store.burgerIngredients.loaded;
+
+  const loaded = useSelector(getBurgerIngredientsLoaded);
 
   React.useEffect(
     () => {

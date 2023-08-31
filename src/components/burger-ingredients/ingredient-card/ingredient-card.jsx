@@ -14,13 +14,15 @@ export default function IngredientCard({ ingredient }) {
     dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: ingredient });
   }
 
-  const count = useSelector(store => {
+  const getCount = store => {
     if (ingredient.type === bun) {
       return store.cart.bun && store.cart.bun._id === ingredient._id ? 2 : 0;
     } else {
       return store.cart.ingredients.filter(e => e._id === ingredient._id).length;
     }
-  })
+  }
+
+  const count = useSelector(getCount);
 
   const [{ opacity }, ref] = useDrag({
     type: 'ingredient',

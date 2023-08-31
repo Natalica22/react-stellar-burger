@@ -3,7 +3,9 @@ import doneImage from "../../images/done.svg";
 import styles from "./order-details.module.css";
 
 export default function OrderDetails() {
-  const { order } = useSelector(store => store.cart);
+  const getOrder = store => store.cart.order;
+
+  const order = useSelector(getOrder);
 
   return (
     <>
