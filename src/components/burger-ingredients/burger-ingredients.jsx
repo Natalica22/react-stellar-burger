@@ -4,20 +4,26 @@ import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { IngredientsContext } from "../../services/ingredients-context";
 import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
+import { useDispatch, useSelector } from 'react-redux';
+import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredient-details";
+import { useInView } from 'react-intersection-observer';
 
 
 export default function BurgerIngredients() {
-  const { ingredients } = React.useContext(IngredientsContext);
-  const [currentIngridientTab, setCurrentIngridientTab] = React.useState(bun);
-  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
+  const dispatch = useDispatch();
+
+  const getIngrediens = store => store.burgerIngredients.ingredients;
+  const ingredients = useSelector(getIngrediens);
+
+  const getIngredientDetails = store => store.ingredientDetails
+  const selectedIngredient = useSelector(getIngredientDetails);
 
   const closeModal = () => {
-    setSelectedIngredient(null);
+    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
   }
 
-  const ingredientsByType = useMemo(() => 
+  const ingredientsByType = useMemo(() =>
     ingredients.reduce((result, e) => {
       result[e.type].push(e);
       return result;
@@ -27,22 +33,38 @@ export default function BurgerIngredients() {
       main: []
     }), [ingredients]);
 
+  const [bunRef, bunInView] = useInView({ threshold: 0.05 });
+  const [sauceRef, sauceInView] = useInView({ threshold: 0.05 });
+  const [mainRef, mainInView] = useInView({ threshold: 0.05 });
+
+  const refByType = {
+    bun: bunRef,
+    sauce: sauceRef,
+    main: mainRef
+  }
+
+  const currentIngridientTab = useMemo(() => bunInView ? bun : sauceInView ? sauce : mainInView ? main : null, [bunInView, sauceInView, mainInView]);
+
+  const scrollToGroup = (ingredientType) => {
+    document.querySelector('#' + ingredientType).scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
   return (
     <section className={styles.ingredients}>
       <h1 className="pt-10 pb-5 text text_type_main-large">Соберите бургер</h1>
       <div className={styles.group_selector}>
-        <Tab value={bun} active={currentIngridientTab === bun} onClick={setCurrentIngridientTab}>
+        <Tab value={bun} active={currentIngridientTab === bun} onClick={() => scrollToGroup(bun)}>
           Булки
         </Tab>
-        <Tab value={sauce} active={currentIngridientTab === sauce} onClick={setCurrentIngridientTab}>
+        <Tab value={sauce} active={currentIngridientTab === sauce} onClick={() => scrollToGroup(sauce)}>
           Соусы
         </Tab>
-        <Tab value={main} active={currentIngridientTab === main} onClick={setCurrentIngridientTab}>
+        <Tab value={main} active={currentIngridientTab === main} onClick={() => scrollToGroup(main)}>
           Начинки
         </Tab>
       </div>
       <div className={`${styles.groups} custom-scroll`}>
-        {ingredientsTypes.map(e => <IngredientsGroup title={ingredientsTitles[e]} ingredients={ingredientsByType[e]} key={e} setSelectedIngredient={setSelectedIngredient} />)}
+        {ingredientsTypes.map(e => <IngredientsGroup title={ingredientsTitles[e]} ingredients={ingredientsByType[e]} key={e} inViewRef={refByType[e]} ingredientType={e} />)}
       </div>
       {
         selectedIngredient &&

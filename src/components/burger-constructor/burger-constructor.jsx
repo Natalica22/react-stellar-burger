@@ -1,72 +1,81 @@
-import React, { useMemo } from "react";
-
-import { 
+import { useCallback, useMemo } from "react";
+import { useDrop } from 'react-dnd';
+import {
   Button,
   ConstructorElement,
-  CurrencyIcon,
-  DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+  CurrencyIcon
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-constructor.module.css";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { OrderContext } from "../../services/order-context";
-import { createOrder } from "../../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_INGREDIENT, MOVE_INGREDIENT } from "../../services/actions/cart";
+import DraggableConstructorElement from "./draggable-constructor-element/draggable-constructor-element";
+import { v4 as uuidv4 } from 'uuid';
+import { CLOSE_ORDER_MODAL, sendOrder } from "../../services/actions/order";
 
 export default function BurgerConstructor() {
-  const { order } = React.useContext(OrderContext);
+  const dispatch = useDispatch();
 
-  const [orderDetails, setOrderDetails] = React.useState(null);
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const getCart = store => store.cart;
+  const cart = useSelector(getCart);
 
-  const total = useMemo(() => order.ingredients.reduce((result, e) => e.price + result, order.bun ? order.bun.price * 2 : 0), [order]);
+  const getOrder = store => store.order;
+  const modalVisible = useSelector(getOrder);
 
-  const canOrder = useMemo(() => order.bun && order.ingredients.length > 0, [order]);
+  const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price * 2 : 0), [cart]);
+
+  const canOrder = useMemo(() => cart.bun && cart.ingredients.length > 0, [cart]);
 
   const submitOrder = () => {
-    createOrder([order.bun, ...order.ingredients].map(e => e._id))
-      .then(createdOrder => {
-        setOrderDetails(createdOrder.order);
-        setModalVisible(true);
-      });
+    dispatch(sendOrder([cart.bun, ...cart.ingredients].map(e => e._id)));
   }
 
   const closeModal = () => {
-    setModalVisible(false);
+    dispatch({ type: CLOSE_ORDER_MODAL });
   }
 
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    collect: monitor => ({
+      isHover: monitor.isOver()
+    }),
+    drop(ingredient) {
+      dispatch({ type: ADD_INGREDIENT, ingredient: ingredient, uid: uuidv4() });
+    },
+  });
+
+  const moveElement = useCallback((dragIndex, hoverIndex) => {
+    dispatch({ type: MOVE_INGREDIENT, fromIndex: dragIndex, toIndex: hoverIndex });
+  }, [dispatch]);
+
   return (
-    <section className={`${styles.burger} pt-25 pb-13 pl-4`}>
+    <section className={`${styles.burger} pt-25 pb-13 pl-4`} ref={dropTarget}>
       <div className={styles.ingredients}>
         {
-          order.bun &&
+          cart.bun &&
           <ConstructorElement
             type="top"
             isLocked
-            text={order.bun.name + " (верх)"}
-            price={order.bun.price}
-            thumbnail={order.bun.image}
+            text={cart.bun.name + " (верх)"}
+            price={cart.bun.price}
+            thumbnail={cart.bun.image}
             extraClass={`${styles.ingredient} ml-8`}
           />
         }
         <div className={`${styles.group} custom-scroll`}>
-          {order.ingredients.map((e, i) =>
-            <div className={styles.dragable_ingredient} key={i}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={e.name}
-                price={e.price}
-                thumbnail={e.image}
-                extraClass={styles.ingredient}
-              />
-            </div>)}
+          {cart.ingredients.map((e, i) =>
+            <DraggableConstructorElement key={e.uid} ingredient={e} index={i} moveElement={moveElement} />
+          )}
         </div>
         {
-          order.bun &&
+          cart.bun &&
           <ConstructorElement
             type="bottom"
             isLocked
-            text={order.bun.name + " (низ)"}
-            price={order.bun.price}
-            thumbnail={order.bun.image}
+            text={cart.bun.name + " (низ)"}
+            price={cart.bun.price}
+            thumbnail={cart.bun.image}
             extraClass={`${styles.ingredient} ml-8`}
           />
         }
@@ -81,9 +90,9 @@ export default function BurgerConstructor() {
         </Button>
       </div>
       {
-        modalVisible && 
+        modalVisible &&
         <Modal handleCloseClick={closeModal}>
-          <OrderDetails orderData={orderDetails} />
+          <OrderDetails />
         </Modal>
       }
     </section>
