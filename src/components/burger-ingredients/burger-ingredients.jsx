@@ -1,27 +1,15 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./burger-ingredients.module.css";
 import IngredientsGroup from "./ingredients-group/ingredients-group";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
-import { useDispatch, useSelector } from 'react-redux';
-import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredient-details";
+import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 
 
 export default function BurgerIngredients() {
-  const dispatch = useDispatch();
-
-  const getIngrediens = store => store.burgerIngredients.ingredients;
-  const ingredients = useSelector(getIngrediens);
-
-  const getIngredientDetails = store => store.ingredientDetails
-  const selectedIngredient = useSelector(getIngredientDetails);
-
-  const closeModal = () => {
-    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-  }
+  const getIngredients = store => store.burgerIngredients.ingredients;
+  const ingredients = useSelector(getIngredients);
 
   const ingredientsByType = useMemo(() =>
     ingredients.reduce((result, e) => {
@@ -66,12 +54,6 @@ export default function BurgerIngredients() {
       <div className={`${styles.groups} custom-scroll`}>
         {ingredientsTypes.map(e => <IngredientsGroup title={ingredientsTitles[e]} ingredients={ingredientsByType[e]} key={e} inViewRef={refByType[e]} ingredientType={e} />)}
       </div>
-      {
-        selectedIngredient &&
-        <Modal handleCloseClick={closeModal} title="Детали ингредиента">
-          <IngredientDetails ingredient={selectedIngredient} />
-        </Modal>
-      }
     </section>
   );
 }

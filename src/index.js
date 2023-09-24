@@ -25,8 +25,7 @@ const initialState = {
     bun: null,
     ingredients: [],
     order: null
-  },
-  ingredientDetails: null,
+  }
 }
 
 const store = createStore(rootReducer, initialState, enhancer);
