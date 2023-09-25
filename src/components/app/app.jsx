@@ -10,6 +10,7 @@ import { getIngrediens } from "../../services/actions/burger-ingredients";
 import { LoginPage } from "../../pages/login-page/login-page";
 import { NotFoundPage } from "../../pages/not-found-page/not-found-page";
 import { RegisterPage } from "../../pages/register-page/register-page";
+import { ForgotPasswordPage } from "../../pages/forgot-password-page/forgot-password-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
           element={<IngredientDetails />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
