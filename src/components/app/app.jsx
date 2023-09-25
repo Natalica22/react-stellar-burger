@@ -11,6 +11,7 @@ import { LoginPage } from "../../pages/login-page/login-page";
 import { NotFoundPage } from "../../pages/not-found-page/not-found-page";
 import { RegisterPage } from "../../pages/register-page/register-page";
 import { ForgotPasswordPage } from "../../pages/forgot-password-page/forgot-password-page";
+import { ResetPasswordPage } from "../../pages/reset-password-page/reset-password-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
