@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 180px;
+}
+
+.form {
+  composes: container;
+  padding-top: 0;
+  row-gap: calc(var(--offset-base-size) * 6);
+}
+
+.link {
+  text-decoration: none;
+  color: #4C4CFF;
+  transition: opacity .5s linear;
+}
+
+.link:hover {
+  opacity: .6;
+}

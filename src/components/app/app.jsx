@@ -9,6 +9,7 @@ import React from "react";
 import { getIngrediens } from "../../services/actions/burger-ingredients";
 import { LoginPage } from "../../pages/login-page/login-page";
 import { NotFoundPage } from "../../pages/not-found-page/not-found-page";
+import { RegisterPage } from "../../pages/register-page/register-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ function App() {
         <Route path="/ingredients/:ingredientId"
           element={<IngredientDetails />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
