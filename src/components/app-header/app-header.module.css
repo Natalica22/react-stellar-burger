@@ -17,11 +17,24 @@
   column-gap: calc(var(--offset-base-size) * 2);
 }
 
+.link {
+  display: flex;
+  align-items: center;
+  column-gap: calc(var(--offset-base-size) * 2);
+  text-decoration: none;
+  outline: none;
+  transition: opacity .5s linear;
+}
+
+.link:hover {
+  opacity: .6;
+}
+
 .link_active {
   color: #f2f2f3;
 }
 
-.link_type_left {
+.link_type_right {
   justify-self: end;
 }
 
