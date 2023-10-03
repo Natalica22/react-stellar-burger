@@ -13,6 +13,7 @@ import { RegisterPage } from "../../pages/register-page/register-page";
 import { ForgotPasswordPage } from "../../pages/forgot-password-page/forgot-password-page";
 import { ResetPasswordPage } from "../../pages/reset-password-page/reset-password-page";
 import { ProfilePage } from "../../pages/profile-page/profile-page";
+import * as pages from "../../utils/pages"
 
 function App() {
   const dispatch = useDispatch();
@@ -35,20 +36,20 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <Routes location={ background || location }>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/ingredients/:ingredientId"
+        <Route path={pages.HOME_PAGE} element={<HomePage />} />
+        <Route path={pages.INGREDIENT_DETAILS_PAGE}
           element={<IngredientDetails />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path={pages.LOGIN_PAGE} element={<LoginPage />} />
+        <Route path={pages.REGISTER_PAGE} element={<RegisterPage />} />
+        <Route path={pages.FORGOT_PASSWORD_PAGE} element={<ForgotPasswordPage />} />
+        <Route path={pages.RESET_PASSWORD_PAGE} element={<ResetPasswordPage />} />
+        <Route path={pages.PROFILE_PAGE} element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       {background && (
         <Routes>
-          <Route path="/ingredients/:ingredientId"
+          <Route path={pages.INGREDIENT_DETAILS_PAGE}
             element={
               <Modal handleCloseClick={handleModalClose}>
                 <IngredientDetails modal={true} />

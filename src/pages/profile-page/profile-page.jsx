@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "./profile-page.module.css";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import * as pages from "../../utils/pages"
 
 function getLinkClass({ isActive }) {
   return `${styles.link} text text_type_main-medium ` + (isActive ? styles.active_link : 'text_color_inactive');
@@ -15,13 +16,13 @@ export function ProfilePage() {
           <div className={styles.nav}>
             <NavLink
               end
-              to="/profile"
+              to={pages.PROFILE_PAGE}
               className={getLinkClass}>
               Профиль
             </NavLink>
             <NavLink
               end
-              to="profile/orders"
+              to={pages.ORDERS_HISTORY_PAGE}
               className={getLinkClass}>
               История заказов
             </NavLink>
