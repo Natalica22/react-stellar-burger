@@ -1,4 +1,4 @@
-import { createOrder } from "../../utils/api";
+import { api } from "../../utils/api";
 import { CLEAN_CART } from "./cart";
 
 export const CREATE_ORDER_REQUEST = 'CREATE_ORDER_REQUEST';
@@ -12,7 +12,7 @@ export function sendOrder(ingredients) {
     dispatch({
       type: CREATE_ORDER_REQUEST
     });
-    createOrder(ingredients).then(res => {
+    api.createOrder(ingredients).then(res => {
       if (res && res.success) {
         dispatch({
           type: CREATE_ORDER_SUCCESS,

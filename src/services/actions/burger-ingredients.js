@@ -1,4 +1,4 @@
-import { loadIngrediens } from "../../utils/api";
+import { api } from "../../utils/api";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -9,7 +9,7 @@ export function getIngrediens() {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     });
-    loadIngrediens().then(res => {
+    api.loadIngrediens().then(res => {
       if (res && res.success) {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
