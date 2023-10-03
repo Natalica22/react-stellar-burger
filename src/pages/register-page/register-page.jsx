@@ -38,9 +38,9 @@ export function RegisterPage() {
           name={'password'}
           icon="ShowIcon"
         />
-      <Button htmlType="button" type="primary" size="medium">
-        Зарегистрироваться
-      </Button>
+        <Button htmlType="button" type="primary" size="medium">
+          Зарегистрироваться
+        </Button>
       </form>
       <p className='text text_type_main-default text_color_inactive pb-4'>
         Уже зарегистрированы?
