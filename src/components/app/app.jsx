@@ -14,6 +14,7 @@ import { ForgotPasswordPage } from "../../pages/forgot-password-page/forgot-pass
 import { ResetPasswordPage } from "../../pages/reset-password-page/reset-password-page";
 import { ProfilePage } from "../../pages/profile-page/profile-page";
 import * as pages from "../../utils/pages"
+import { checkUserAuth } from "../../services/actions/user";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
   React.useEffect(
     () => {
       dispatch(getIngrediens());
+      dispatch(checkUserAuth());
     },
     [dispatch]
   );
