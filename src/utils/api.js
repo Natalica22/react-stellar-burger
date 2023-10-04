@@ -17,6 +17,14 @@ class Api {
     return this._callApi('/auth/login', 'POST', {}, data);
   }
 
+  forgotPassword(data) {
+    return this._callApi('/password-reset', 'POST', {}, data);
+  }
+
+  resetPassword(data) {
+    return this._callApi('/password-reset/reset', 'POST', {}, data);
+  }
+
   loadIngrediens() {
     return this._callApi('/ingredients', 'GET')
       .catch(this._logError)

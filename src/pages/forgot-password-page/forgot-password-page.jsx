@@ -1,26 +1,51 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./forgot-password-page.module.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { api } from '../../utils/api';
+import { FORGOT_PASSWORD_PASSED } from '../../utils/constants';
+import { RESET_PASSWORD_PAGE } from '../../utils/pages';
 
 export function ForgotPasswordPage() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    email: ''
+  });
+  
+  const [error, setError] = useState(false);
+  const inputRef = useRef(null);
+
+  const onChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const submitForm = e => {
+    e.preventDefault();
+
+    api.forgotPassword(form)
+      .then(res => {
+        localStorage.setItem(FORGOT_PASSWORD_PASSED, true);
+        navigate(RESET_PASSWORD_PAGE);
+      })
+      .catch(err => setError(true));
+  }
 
   return (
     <div className={styles.container}>
-      <form className={`${styles.form} pb-20`}>
+      <form className={`${styles.form} pb-20`} onSubmit={submitForm}>
         <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
         <Input
+          onChange={onChange}
           type={'email'}
           placeholder={'Укажите e-mail'}
-          // value={value}
-          name={'name'}
-          error={false}
-          // ref={inputRef}
-          // onIconClick={onIconClick}
-          errorText={'Ошибка'}
+          value={form.email}
+          name={'email'}
+          error={error}
+          ref={inputRef}
+          errorText={'Что-то пошло не так'}
           size={'default'}
-          // extraClass="ml-1"
         />
-      <Button htmlType="button" type="primary" size="medium">
+      <Button htmlType="submit" type="primary" size="medium">
         Восстановить
       </Button>
       </form>

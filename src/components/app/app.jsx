@@ -16,6 +16,7 @@ import { ProfilePage } from "../../pages/profile-page/profile-page";
 import * as pages from "../../utils/pages"
 import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
+import { FORGOT_PASSWORD_PASSED } from "../../utils/constants";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,8 @@ function App() {
     () => {
       dispatch(getIngrediens());
       dispatch(checkUserAuth());
+
+      localStorage.removeItem(FORGOT_PASSWORD_PASSED);
     },
     [dispatch]
   );

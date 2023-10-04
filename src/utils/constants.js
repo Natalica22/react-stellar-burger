@@ -11,3 +11,5 @@ export const ingredientsTitles = {
   sauce: 'Соусы',
   main: 'Начинки'
 }
+
+export const FORGOT_PASSWORD_PASSED = 'forgotPasswordPassed';
