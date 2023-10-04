@@ -15,6 +15,7 @@ import { ResetPasswordPage } from "../../pages/reset-password-page/reset-passwor
 import { ProfilePage } from "../../pages/profile-page/profile-page";
 import * as pages from "../../utils/pages"
 import { checkUserAuth } from "../../services/actions/user";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,13 +40,12 @@ function App() {
       <AppHeader />
       <Routes location={ background || location }>
         <Route path={pages.HOME_PAGE} element={<HomePage />} />
-        <Route path={pages.INGREDIENT_DETAILS_PAGE}
-          element={<IngredientDetails />} />
-        <Route path={pages.LOGIN_PAGE} element={<LoginPage />} />
-        <Route path={pages.REGISTER_PAGE} element={<RegisterPage />} />
-        <Route path={pages.FORGOT_PASSWORD_PAGE} element={<ForgotPasswordPage />} />
-        <Route path={pages.RESET_PASSWORD_PAGE} element={<ResetPasswordPage />} />
-        <Route path={pages.PROFILE_PAGE} element={<ProfilePage />} />
+        <Route path={pages.INGREDIENT_DETAILS_PAGE} element={<IngredientDetails />} />
+        <Route path={pages.LOGIN_PAGE} element={<OnlyUnAuth component={<LoginPage /> } />} />
+        <Route path={pages.REGISTER_PAGE} element={<OnlyUnAuth component={<RegisterPage />} />} />
+        <Route path={pages.FORGOT_PASSWORD_PAGE} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+        <Route path={pages.RESET_PASSWORD_PAGE} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+        <Route path={pages.PROFILE_PAGE} element={<OnlyAuth component={<ProfilePage />} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
