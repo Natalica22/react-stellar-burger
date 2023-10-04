@@ -1,44 +1,66 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./register-page.module.css";
 import { Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../services/actions/registration';
 
 export function RegisterPage() {
+  const dispatch = useDispatch();
+
+  const getError = store => store.registration.error;
+  const error = useSelector(getError);
+  const hasError = error != null;
+
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+  const inputRef = useRef(null);
+
+  const onChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const submitForm = e => {
+    e.preventDefault();
+    dispatch(registerUser(form));
+  }
 
   return (
-    <div className={styles.container}>
-      <form className={`${styles.form} pb-20`}>
+    <main className={styles.container}>
+      <form className={`${styles.form} pb-20`} onSubmit={submitForm}>
         <h2 className='text text_type_main-medium'>Регистрация</h2>
         <Input
+          onChange={onChange}
           type={'text'}
           placeholder={'Имя'}
-          // value={value}
+          value={form.name}
           name={'name'}
           error={false}
-          // ref={inputRef}
-          // onIconClick={onIconClick}
+          ref={inputRef}
           errorText={'Ошибка'}
           size={'default'}
-          // extraClass="ml-1"
         />
         <Input
+          onChange={onChange}
           type={'email'}
           placeholder={'E-mail'}
-          // value={value}
-          name={'name'}
-          error={false}
-          // ref={inputRef}
-          // onIconClick={onIconClick}
-          errorText={'Ошибка'}
+          value={form.email}
+          name={'email'}
+          error={hasError}
+          ref={inputRef}
+          errorText={'Пользователь уже существует'}
           size={'default'}
-          // extraClass="ml-1"
         />
         <PasswordInput
-          // onChange={onChange}
-          // value={value}
+          onChange={onChange}
+          value={form.password}
           name={'password'}
           icon="ShowIcon"
         />
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="submit" type="primary" size="medium">
           Зарегистрироваться
         </Button>
       </form>
@@ -46,6 +68,6 @@ export function RegisterPage() {
         Уже зарегистрированы?
         <Link className={`${styles.link} pl-2`} to='/login'>Войти</Link>
       </p>
-    </div>
+    </main>
   )
 }

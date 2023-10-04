@@ -18,7 +18,7 @@ class Api {
   }
 
   loadIngrediens() {
-    return this._callApi('/ingredients')
+    return this._callApi('/ingredients', 'GET')
       .catch(this._logError)
   }
 
@@ -53,7 +53,7 @@ class Api {
     };
   }
 
-  _callApi(resouse, method = 'GET', headers, data) {
+  _callApi(resouse, method, headers, data) {
     const request = {
       method: method,
       headers: {
@@ -65,7 +65,7 @@ class Api {
       request.body = JSON.stringify(data);
     }
 
-    return fetch(this._baseUrl + resouse)
+    return fetch(this._baseUrl + resouse, request)
       .then(this._getResponseData);
   }
 
