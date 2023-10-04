@@ -25,6 +25,10 @@ class Api {
     return this._callApi('/password-reset/reset', 'POST', {}, data);
   }
 
+  logout() {
+    return this._callApiWithRefresh('/auth/logout', 'POST', {}, { token: localStorage.getItem(REFRESH_TOKEN) } );
+  }
+
   loadIngrediens() {
     return this._callApi('/ingredients', 'GET')
       .catch(this._logError)

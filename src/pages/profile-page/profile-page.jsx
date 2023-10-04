@@ -1,13 +1,27 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styles from "./profile-page.module.css";
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import * as pages from "../../utils/pages"
+import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../services/actions/user";
 
 function getLinkClass({ isActive }) {
   return `${styles.link} text text_type_main-medium ` + (isActive ? styles.active_link : 'text_color_inactive');
 }
 
 export function ProfilePage() {
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    api.logout()
+      .then(res => {
+        localStorage.removeItem(ACCESS_TOKEN);
+        localStorage.removeItem(REFRESH_TOKEN);
+
+        dispatch(setUser(null));
+      });
+  }
 
   return (
     <main className={styles.main}>
@@ -26,12 +40,11 @@ export function ProfilePage() {
               className={getLinkClass}>
               История заказов
             </NavLink>
-            <NavLink
-              end
-              to="/logout"
-              className={getLinkClass}>
+            <Link
+              className={`${styles.link} text text_type_main-medium text_color_inactive`}
+              onClick={logout}>
               Выход
-            </NavLink>
+            </Link>
           </div>
           <p className={`text text_type_main-default ${styles.description}`}>
             В этом разделе вы можете изменить&nbsp;свои&nbsp;персональные&nbsp;данные
