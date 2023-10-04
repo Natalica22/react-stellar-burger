@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api";
-import { SET_AUTH_CHECKED, SET_USER, setAuthChecked, setUser } from "./user";
+import { setAuthChecked, setUser } from "./user";
 
 export const REGISTRATION_REQUEST = 'REGISTRATION_REQUEST';
 export const REGISTRATION_SUCCESS = 'REGISTRATION_SUCCESS';

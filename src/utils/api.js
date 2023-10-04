@@ -28,7 +28,7 @@ class Api {
   }
 
   getUser() {
-    return this._callApi('/auth/user', 'GET', this._authHeader())
+    return this._callApiWithRefresh('/auth/user', 'GET', this._authHeader())
       .catch(this._logError)
   }
 

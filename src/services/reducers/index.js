@@ -4,6 +4,7 @@ import { cartReducer } from "./cart";
 import { orderReducer } from "./order";
 import { userReducer } from "./user";
 import { registrationReducer } from "./registration";
+import { loginReducer } from "./login";
 
 export const rootReducer = combineReducers({
   burgerIngredients: burgerIngredientsReducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   order: orderReducer,
   user: userReducer,
   registration: registrationReducer,
+  login: loginReducer,
 });
