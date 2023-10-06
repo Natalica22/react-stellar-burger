@@ -49,6 +49,7 @@ function App() {
         <Route path={pages.FORGOT_PASSWORD_PAGE} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
         <Route path={pages.RESET_PASSWORD_PAGE} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
         <Route path={pages.PROFILE_PAGE} element={<OnlyAuth component={<ProfilePage />} />} />
+        <Route path={pages.PROFILE_PAGE + '/*'} element={<OnlyAuth component={<ProfilePage />} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
