@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import styles from "./profile-page.module.css";
-import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import * as pages from "../../utils/pages"
 import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../services/actions/user";
+import { useDispatch, useSelector } from "react-redux";
+import { patchUser, setUser } from "../../services/actions/user";
+import { useEffect, useRef, useState } from "react";
 
 function getLinkClass({ isActive }) {
   return `${styles.link} text text_type_main-medium ` + (isActive ? styles.active_link : 'text_color_inactive');
@@ -13,9 +14,39 @@ function getLinkClass({ isActive }) {
 export function ProfilePage() {
   const dispatch = useDispatch();
 
+  const getUser = store => store.user.user;
+
+  const user = useSelector(getUser);
+
+  const [form, setForm] = useState({ ...user, password: '' });
+  const [editActive, setEditActive] = useState(false);
+
+  const nameInputRef = useRef(null);
+  const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+
+  const onChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    setEditActive(!(user.name === form.name && user.email === form.email && form.password === ''));
+  }, [form, user]);
+
+  const submitForm = e => {
+    e.preventDefault();
+    dispatch(patchUser(form));
+    setForm({ ...form, password: '' })
+  }
+
+  const resetForm = e => {
+    e.preventDefault();
+    setForm({ ...user, password: '' });
+  }
+
   const logout = () => {
     api.logout()
-      .then(res => {
+      .then(() => {
         localStorage.removeItem(ACCESS_TOKEN);
         localStorage.removeItem(REFRESH_TOKEN);
 
@@ -51,47 +82,57 @@ export function ProfilePage() {
           </p>
         </div>
         <div className={styles.profile}>
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={submitForm} onReset={resetForm}>
             <Input
+              onChange={onChange}
               type={'text'}
               placeholder={'Имя'}
-              // value={value}
+              value={form.name}
               name={'name'}
               error={false}
-              // ref={inputRef}
-              // onIconClick={onIconClick}
+              ref={nameInputRef}
               errorText={'Ошибка'}
               size={'default'}
-              // extraClass="ml-1"
               icon="EditIcon"
+              onIconClick={() => nameInputRef.current.focus()}
             />
             <Input
+              onChange={onChange}
               type={'email'}
               placeholder={'E-mail'}
-              // value={value}
-              name={'name'}
+              value={form.email}
+              name={'email'}
               error={false}
-              // ref={inputRef}
-              // onIconClick={onIconClick}
+              ref={emailInputRef}
               errorText={'Ошибка'}
               size={'default'}
-              // extraClass="ml-1"
               icon="EditIcon"
+              onIconClick={() => emailInputRef.current.focus()}
             />
-            <PasswordInput
-              // onChange={onChange}
-              // value={value}
+            <Input
+              onChange={onChange}
+              type={'password'}
+              placeholder={'Пароль'}
+              value={form.password}
               name={'password'}
+              error={false}
+              ref={passwordInputRef}
+              errorText={'Ошибка'}
+              size={'default'}
               icon="EditIcon"
+              onIconClick={() => passwordInputRef.current.focus()}
             />
-            <div className={styles.buttons}>
-              <Button htmlType="button" type="secondary" size="medium" extraClass={styles.cancel}>
-                Отмена
-              </Button>
-              <Button htmlType="button" type="primary" size="medium">
-                Сохранить
-              </Button>
-            </div>
+            {
+              editActive &&
+              <div className={styles.buttons}>
+                <Button htmlType="reset" type="secondary" size="medium" extraClass={styles.cancel}>
+                  Отмена
+                </Button>
+                <Button htmlType="submit" type="primary" size="medium">
+                  Сохранить
+                </Button>
+              </div>
+            }
           </form>
         </div>
       </div>

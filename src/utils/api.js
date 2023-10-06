@@ -26,22 +26,27 @@ class Api {
   }
 
   logout() {
-    return this._callApiWithRefresh('/auth/logout', 'POST', {}, { token: localStorage.getItem(REFRESH_TOKEN) } );
+    return this._callApiWithRefresh('/auth/logout', 'POST', {}, { token: localStorage.getItem(REFRESH_TOKEN) });
   }
 
   loadIngrediens() {
     return this._callApi('/ingredients', 'GET')
-      .catch(this._logError)
+      .catch(this._logError);
   }
 
   createOrder(ingredients) {
     return this._callApi('/orders', 'POST', {}, { ingredients: ingredients })
-      .catch(this._logError)
+      .catch(this._logError);
   }
 
   getUser() {
     return this._callApiWithRefresh('/auth/user', 'GET', this._authHeader())
-      .catch(this._logError)
+      .catch(this._logError);
+  }
+
+  patchUser(data) {
+    return this._callApiWithRefresh('/auth/user', 'PATCH', this._authHeader(), data)
+      .catch(this._logError);
   }
 
   async _callApiWithRefresh(resouse, method = 'GET', headers, data) {
@@ -50,7 +55,7 @@ class Api {
     }
     catch (error) {
       if (error.message === 'jwt expired') {
-        const refreshData = await this._refreshToken(); //обновляем токен
+        const refreshData = await this._refreshToken();
         if (!refreshData.success) {
           return Promise.reject(refreshData);
         }
@@ -58,7 +63,7 @@ class Api {
         localStorage.setItem(ACCESS_TOKEN, refreshData.accessToken);
 
         const newHeaders = { ...headers, ...this._authHeader() };
-        return await this._callApi(resouse, method, newHeaders, data); //повторяем запрос
+        return await this._callApi(resouse, method, newHeaders, data);
       } else {
         return Promise.reject(error);
       }

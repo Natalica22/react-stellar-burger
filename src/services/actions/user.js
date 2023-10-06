@@ -35,3 +35,12 @@ export const checkUserAuth = () => {
     }
   };
 };
+
+export const patchUser = (user) => {
+  return (dispatch) => {
+    api.patchUser(user)
+      .then(res => {
+        dispatch(setUser(res.user));
+      });
+  };
+}
