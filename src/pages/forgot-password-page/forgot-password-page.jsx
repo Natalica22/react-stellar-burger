@@ -31,7 +31,7 @@ export function ForgotPasswordPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <form className={`${styles.form} pb-20`} onSubmit={submitForm}>
         <h2 className='text text_type_main-medium'>Восстановление пароля</h2>
         <Input
@@ -53,6 +53,6 @@ export function ForgotPasswordPage() {
         Вспомнили пароль?
         <Link className={`${styles.link} pl-2`} to='/login'>Войти</Link>
       </p>
-    </div>
+    </main>
   )
 }

@@ -28,7 +28,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <form className={`${styles.form} pb-20`} onSubmit={submitForm}>
         <h2 className='text text_type_main-medium'>Вход</h2>
         <Input
@@ -60,6 +60,6 @@ export function LoginPage() {
         Забыли пароль?
         <Link className={`${styles.link} pl-2`} to='/forgot-password'>Восстановить пароль</Link>
       </p>
-    </div>
+    </main>
   )
 }
