@@ -23,11 +23,11 @@ export function ForgotPasswordPage() {
     e.preventDefault();
 
     api.forgotPassword(form)
-      .then(res => {
+      .then(() => {
         localStorage.setItem(FORGOT_PASSWORD_PASSED, true);
         navigate(RESET_PASSWORD_PAGE);
       })
-      .catch(err => setError(true));
+      .catch(() => setError(true));
   }
 
   return (
