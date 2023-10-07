@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
 import * as pages from "../../utils/pages"
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function getLinkClass({ isActive }) {
   return `${styles.link} text text_type_main-default pt-4 pb-4 pl-5 pr-5 ` + (isActive ? styles.link_active : 'text_color_inactive');
@@ -22,11 +22,11 @@ export default function AppHeader() {
     <header className={styles.header}>
       <nav className={`${styles.navbar} pb-4 pt-4`}>
         <div className={styles.container}>
-          <NavLink 
+          <NavLink
             end
             to={pages.HOME_PAGE}
             className={getLinkClass}>
-            {({isActive}) => 
+            {({ isActive }) =>
               <>
                 <BurgerIcon type={getIconType(isActive)} />
                 Конструктор
@@ -37,7 +37,7 @@ export default function AppHeader() {
             end
             to={pages.ORDERS_PAGE}
             className={getLinkClass}>
-            {({isActive}) => 
+            {({ isActive }) =>
               <>
                 <ListIcon type={getIconType(isActive)} />
                 Лента заказов
@@ -46,17 +46,19 @@ export default function AppHeader() {
           </NavLink>
         </div>
         <div className={styles.logo}>
-          <Logo />
+          <Link to={pages.HOME_PAGE}>
+            <Logo />
+          </Link>
         </div>
         <NavLink
           to={pages.PROFILE_PAGE}
           className={(state) => `${getLinkClass(state)} ${styles.link_type_right}`}>
-          {({isActive}) => 
-              <>
-                <ProfileIcon type={getIconType(isActive)} />
-                Личный кабинет
-              </>
-            }
+          {({ isActive }) =>
+            <>
+              <ProfileIcon type={getIconType(isActive)} />
+              Личный кабинет
+            </>
+          }
         </NavLink>
       </nav>
     </header>
