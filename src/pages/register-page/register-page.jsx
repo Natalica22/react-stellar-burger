@@ -1,9 +1,10 @@
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./register-page.module.css";
 import { Link } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../services/actions/registration';
+import { useForm } from '../../hooks/useForm';
 
 export function RegisterPage() {
   const dispatch = useDispatch();
@@ -12,16 +13,8 @@ export function RegisterPage() {
   const error = useSelector(getError);
   const hasError = error != null;
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
+  const {form, onChange} = useForm({ name: '', email: '', password: '' });
   const inputRef = useRef(null);
-
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const submitForm = e => {
     e.preventDefault();

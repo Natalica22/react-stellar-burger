@@ -3,7 +3,8 @@ import styles from "./login-page.module.css";
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../services/actions/login';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import { useForm } from '../../hooks/useForm';
 
 export function LoginPage() {
   const dispatch = useDispatch();
@@ -12,15 +13,9 @@ export function LoginPage() {
   const error = useSelector(getError);
   const hasError = error != null;
 
-  const [ form, setForm ] = useState({
-    email: '',
-    password: ''
-  });
-  const inputRef = useRef(null);
+  const {form, onChange} = useForm({ email: '', password: '' });
 
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const inputRef = useRef(null);
 
   const submitForm = e => {
     e.preventDefault();

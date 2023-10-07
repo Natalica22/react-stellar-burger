@@ -5,19 +5,14 @@ import { useRef, useState } from 'react';
 import { api } from '../../utils/api';
 import { FORGOT_PASSWORD_PASSED } from '../../utils/constants';
 import { RESET_PASSWORD_PAGE } from '../../utils/pages';
+import { useForm } from '../../hooks/useForm';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    email: ''
-  });
-  
+
+  const {form, onChange} = useForm({ email: '' });
   const [error, setError] = useState(false);
   const inputRef = useRef(null);
-
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const submitForm = e => {
     e.preventDefault();

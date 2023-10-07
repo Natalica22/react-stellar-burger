@@ -6,6 +6,7 @@ import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { patchUser, setUser } from "../../services/actions/user";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "../../hooks/useForm";
 
 function getLinkClass({ isActive }) {
   return `${styles.link} text text_type_main-medium ` + (isActive ? styles.active_link : 'text_color_inactive');
@@ -18,16 +19,12 @@ export function ProfilePage() {
 
   const user = useSelector(getUser);
 
-  const [form, setForm] = useState({ ...user, password: '' });
+  const {form, onChange, setForm} = useForm({ ...user, password: '' });
   const [editActive, setEditActive] = useState(false);
 
   const nameInputRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
-
-  const onChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   useEffect(() => {
     setEditActive(!(user.name === form.name && user.email === form.email && form.password === ''));
