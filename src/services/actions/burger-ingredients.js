@@ -20,6 +20,7 @@ export function getIngrediens() {
           type: GET_INGREDIENTS_ERROR
         });
       }
-    });
+    })
+    .catch(error => console.log(error));
   };
 }

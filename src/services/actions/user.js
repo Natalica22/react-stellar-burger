@@ -16,7 +16,8 @@ export const setUser = (user) => ({
 export const getUser = () => {
   return (dispatch) => {
     return api.getUser()
-      .then((res) => dispatch(setUser(res.user)));
+      .then((res) => dispatch(setUser(res.user)))
+      .catch(error => console.log(error));
   };
 };
 
@@ -41,6 +42,7 @@ export const patchUser = (user) => {
     api.patchUser(user)
       .then(res => {
         dispatch(setUser(res.user));
-      });
+      })
+      .catch(error => console.log(error));
   };
 }

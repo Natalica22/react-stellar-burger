@@ -31,22 +31,18 @@ class Api {
 
   loadIngrediens() {
     return this._callApi('/ingredients', 'GET')
-      .catch(this._logError);
   }
 
   createOrder(ingredients) {
     return this._callApi('/orders', 'POST', {}, { ingredients: ingredients })
-      .catch(this._logError);
   }
 
   getUser() {
     return this._callApiWithRefresh('/auth/user', 'GET', this._authHeader())
-      .catch(this._logError);
   }
 
   patchUser(data) {
     return this._callApiWithRefresh('/auth/user', 'PATCH', this._authHeader(), data)
-      .catch(this._logError);
   }
 
   async _callApiWithRefresh(resouse, method = 'GET', headers, data) {
@@ -88,10 +84,6 @@ class Api {
 
   _getResponseData(response) {
     return response.ok ? response.json() : response.json().then((error) => Promise.reject(error));
-  }
-
-  _logError(error) {
-    console.log(error);
   }
 
   _authHeader() {

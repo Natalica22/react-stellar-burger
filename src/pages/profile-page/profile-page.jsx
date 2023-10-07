@@ -51,7 +51,8 @@ export function ProfilePage() {
         localStorage.removeItem(REFRESH_TOKEN);
 
         dispatch(setUser(null));
-      });
+      })
+      .catch(error => console.log(error));
   }
 
   return (

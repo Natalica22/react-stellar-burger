@@ -26,6 +26,7 @@ export function sendOrder(ingredients) {
           type: CREATE_ORDER_ERROR
         });
       }
-    });
+    })
+    .catch(error => console.log(error));
   };
 }
