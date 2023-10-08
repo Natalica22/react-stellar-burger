@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 const modalsContainer = document.querySelector("#modals-container");
 
-export default function Modal({ title, children, handleCloseClick }) {
+export default function Modal({ children, handleCloseClick }) {
 
   const closeOnEsc = (evt) => {
     if (evt.key === 'Escape') {
@@ -23,26 +23,22 @@ export default function Modal({ title, children, handleCloseClick }) {
     }
   }, []);
 
-  return ReactDOM.createPortal (
+  return ReactDOM.createPortal(
     (
-    <>
-      <ModalOverlay handleCloseClick={handleCloseClick}/>
-      <div className={styles.modal}>
-        <div className={`${styles.title_container} pl-10 pt-10 pr-10`}>
-          <h2 className="text text_type_main-large">{ title }</h2>
+      <>
+        <ModalOverlay handleCloseClick={handleCloseClick} />
+        <div className={styles.modal}>
           <button className={styles.close} onClick={handleCloseClick}>
             <CloseIcon type="primary" />
           </button>
+          {children}
         </div>
-        <div className={styles.content}>{ children }</div>
-      </div>
-    </>),
+      </>),
     modalsContainer
   );
 }
 
 Modal.propTypes = {
-  title: PropTypes.string,
   handleCloseClick: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired
 }

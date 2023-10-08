@@ -13,9 +13,12 @@ import { ADD_INGREDIENT, MOVE_INGREDIENT } from "../../services/actions/cart";
 import DraggableConstructorElement from "./draggable-constructor-element/draggable-constructor-element";
 import { v4 as uuidv4 } from 'uuid';
 import { CLOSE_ORDER_MODAL, sendOrder } from "../../services/actions/order";
+import { LOGIN_PAGE } from "../../utils/pages";
+import { useNavigate } from "react-router-dom";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getCart = store => store.cart;
   const cart = useSelector(getCart);
@@ -27,8 +30,15 @@ export default function BurgerConstructor() {
 
   const canOrder = useMemo(() => cart.bun && cart.ingredients.length > 0, [cart]);
 
+  const getUser = store => store.user.user;
+  const user = useSelector(getUser);
+
   const submitOrder = () => {
-    dispatch(sendOrder([cart.bun, ...cart.ingredients].map(e => e._id)));
+    if (user){
+      dispatch(sendOrder([cart.bun, ...cart.ingredients].map(e => e._id)));
+    } else {
+      navigate(LOGIN_PAGE);
+    }
   }
 
   const closeModal = () => {

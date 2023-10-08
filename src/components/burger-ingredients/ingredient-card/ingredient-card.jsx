@@ -1,18 +1,14 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-card.module.css";
 import { ingredientPropType } from "../../../utils/prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useDrag } from 'react-dnd';
-import { OPEN_INGREDIENT_DETAILS } from "../../../services/actions/ingredient-details";
 import { bun } from "../../../utils/constants";
+import { Link, useLocation } from "react-router-dom";
 
 
 export default function IngredientCard({ ingredient }) {
-  const dispatch = useDispatch();
-  
-  const onClick = () => {
-    dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: ingredient });
-  }
+  const location = useLocation();
 
   const getCount = store => {
     if (ingredient.type === bun) {
@@ -33,15 +29,18 @@ export default function IngredientCard({ ingredient }) {
   });
 
   return (
-    <li ref={ref} className={styles.card} onClick={onClick} style={{ opacity }}>
+    <Link ref={ref} className={`${styles.card} text text_color_primary`} style={{ opacity }}
+      to={`/ingredients/${ingredient._id}`}
+      state={{ background: location }}
+    >
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
-      <img src={ingredient.image} alt={ingredient.name} className={styles.image}/>
+      <img src={ingredient.image} alt={ingredient.name} className={styles.image} />
       <div className={`${styles.price}  pt-2 pb-2`}>
         <p className="text text_type_digits-default pr-2">{ingredient.price}</p>
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}>{ingredient.name}</p>
-    </li>
+    </Link>
   );
 }
 
