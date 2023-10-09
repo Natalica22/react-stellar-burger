@@ -15,3 +15,9 @@
   padding-top: calc(var(--offset-base-size) * 10);
   width: 100%;
 }
+
+.list {
+  width: calc(100% - 20px);
+  max-height: calc(100vh - 148px);
+  row-gap: calc(var(--offset-base-size) * 6);
+}

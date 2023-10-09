@@ -1,0 +1,24 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1248px;
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 5);
+}
+
+.orders {
+  display: grid;
+  grid-template-columns: 608px 580px;
+  column-gap: calc(var(--offset-base-size) * 15);
+}
+
+.list {
+  width: 100%;
+  max-height: calc(100vh - 208px);
+  row-gap: calc(var(--offset-base-size) * 4);
+}

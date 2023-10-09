@@ -35,7 +35,7 @@ export default function AppHeader() {
           </NavLink>
           <NavLink
             end
-            to={pages.ORDERS_PAGE}
+            to={pages.ORDERS_FEED_PAGE}
             className={getLinkClass}>
             {({ isActive }) =>
               <>

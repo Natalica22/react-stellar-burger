@@ -18,6 +18,7 @@ import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { FORGOT_PASSWORD_PASSED } from "../../utils/constants";
 import { ProfileOrdersPage } from "../../pages/profile-orders-page/profile-orders-page";
+import { FeedPage } from "../../pages/feed-page/feed-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
       <AppHeader />
       <Routes location={ background || location }>
         <Route path={pages.HOME_PAGE} element={<HomePage />} />
+        <Route path={pages.ORDERS_FEED_PAGE} element={<FeedPage />} />
         <Route path={pages.INGREDIENT_DETAILS_PAGE} element={<IngredientDetails />} />
         <Route path={pages.LOGIN_PAGE} element={<OnlyUnAuth component={<LoginPage /> } />} />
         <Route path={pages.REGISTER_PAGE} element={<OnlyUnAuth component={<RegisterPage />} />} />

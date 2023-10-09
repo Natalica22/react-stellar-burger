@@ -1,6 +1,7 @@
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-card.module.css";
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 
 function getStatusText(status) {
   switch (status) {
@@ -15,12 +16,13 @@ function getStatusText(status) {
   }
 }
 
-export function OrderCard({ order }) {
+export function OrderCard({ order, showStatus }) {
   const getIngredients = store => store.burgerIngredients.ingredients;
   const ingredients = useSelector(getIngredients);
 
-  const orderIngredients = order.ingredients
-    .map(e => ingredients.find(i => e === i._id));
+  const orderIngredients = useMemo(() => order.ingredients
+    .map(e => ingredients.find(i => e === i._id))
+    .filter(e => e !== undefined), [ingredients]);
 
   const uniqueIngredients = orderIngredients.reduce((result, e) =>
     result.some(elem => elem._id === e._id) ? result : [...result, e], []);
@@ -40,7 +42,7 @@ export function OrderCard({ order }) {
       </div>
       <div className={styles.container}>
         <p className="text text_type_main-medium">{order.name}</p>
-        {status &&
+        { showStatus && status &&
           <p className={`text text_type_main-default ${status === 'Выполнен' ? styles.status_done : ''}`}>{status}</p>
         }
       </div>
