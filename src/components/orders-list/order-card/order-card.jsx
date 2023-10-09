@@ -2,6 +2,7 @@ import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burge
 import styles from "./order-card.module.css";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 function getStatusText(status) {
   switch (status) {
@@ -16,7 +17,7 @@ function getStatusText(status) {
   }
 }
 
-export function OrderCard({ order, showStatus }) {
+export function OrderCard({ order, showStatus, basePage, location }) {
   const getIngredients = store => store.burgerIngredients.ingredients;
   const ingredients = useSelector(getIngredients);
 
@@ -34,7 +35,9 @@ export function OrderCard({ order, showStatus }) {
   const status = getStatusText(order.status);
 
   return (
-    <div className={styles.card}>
+    <Link className={`${styles.card} text text_color_primary`}
+      to={`${basePage}/${order._id}`}
+      state={{ background: location }}>
       <div className={styles.order}>
         <p className="text text_type_digits-default">#{order.number}</p>
         <FormattedDate date={new Date(order.createdAt)}
@@ -42,7 +45,7 @@ export function OrderCard({ order, showStatus }) {
       </div>
       <div className={styles.container}>
         <p className="text text_type_main-medium">{order.name}</p>
-        { showStatus && status &&
+        {showStatus && status &&
           <p className={`text text_type_main-default ${status === 'Выполнен' ? styles.status_done : ''}`}>{status}</p>
         }
       </div>
@@ -50,8 +53,8 @@ export function OrderCard({ order, showStatus }) {
         <ul className={styles.ingredients}>
           {
             uniqueIngredients.slice(0, 6).map((e, i) => {
-                const other = otherIngredients > 0 && i === 5;
-                return (
+              const other = otherIngredients > 0 && i === 5;
+              return (
                 <li key={e._id} className={styles.ingredient}>
                   <img src={e.image_mobile} alt={e.name} className={`${styles.image} ${other && styles.image_hidden}`} />
                   {
@@ -59,7 +62,7 @@ export function OrderCard({ order, showStatus }) {
                     <p className={`text text_type_main-default ${styles.counter}`}>+{otherIngredients}</p>
                   }
                 </li>);
-              }
+            }
             )
           }
         </ul>
@@ -68,6 +71,6 @@ export function OrderCard({ order, showStatus }) {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

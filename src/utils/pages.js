@@ -1,9 +1,11 @@
 export const HOME_PAGE='/';
-export const ORDERS_FEED_PAGE='/feed';
+export const FEED_PAGE='/feed';
+export const FEED_ORDER_INFO_PAGE='/feed/:id';
 export const LOGIN_PAGE='/login';
 export const REGISTER_PAGE='/register';
 export const FORGOT_PASSWORD_PAGE='/forgot-password';
 export const RESET_PASSWORD_PAGE='/reset-password';
 export const PROFILE_PAGE='/profile';
 export const PROFILE_ORDERS_PAGE='/profile/orders';
+export const PROFILE_ORDER_INFO_PAGE='/profile/orders/:id';
 export const INGREDIENT_DETAILS_PAGE='/ingredients/:ingredientId';
