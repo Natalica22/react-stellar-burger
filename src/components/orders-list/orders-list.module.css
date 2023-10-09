@@ -1,0 +1,9 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 6);
+  overflow-y: auto;
+  box-sizing: border-box;
+  width: calc(100% - 20px);
+  max-height: calc(100vh - 148px);
+}

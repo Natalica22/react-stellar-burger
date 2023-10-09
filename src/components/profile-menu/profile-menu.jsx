@@ -34,7 +34,7 @@ export function ProfileMenu() {
         </NavLink>
         <NavLink
           end
-          to={pages.ORDERS_HISTORY_PAGE}
+          to={pages.PROFILE_ORDERS_PAGE}
           className={getLinkClass}>
           История заказов
         </NavLink>

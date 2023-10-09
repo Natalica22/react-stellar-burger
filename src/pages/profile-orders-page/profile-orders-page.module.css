@@ -1,0 +1,17 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  max-width: 1280px;
+  width: 100%;
+  column-gap: calc(var(--offset-base-size) * 15);
+}
+
+.orders {
+  padding-top: calc(var(--offset-base-size) * 10);
+  width: 100%;
+}

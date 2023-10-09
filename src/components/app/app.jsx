@@ -17,6 +17,7 @@ import * as pages from "../../utils/pages"
 import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { FORGOT_PASSWORD_PASSED } from "../../utils/constants";
+import { ProfileOrdersPage } from "../../pages/profile-orders-page/profile-orders-page";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ function App() {
         <Route path={pages.FORGOT_PASSWORD_PAGE} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
         <Route path={pages.RESET_PASSWORD_PAGE} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
         <Route path={pages.PROFILE_PAGE} element={<OnlyAuth component={<ProfilePage />} />} />
-        <Route path={pages.PROFILE_PAGE + '/*'} element={<OnlyAuth component={<ProfilePage />} />} />
+        <Route path={pages.PROFILE_ORDERS_PAGE} element={<OnlyAuth component={<ProfileOrdersPage />} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
