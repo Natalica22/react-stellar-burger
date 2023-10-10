@@ -34,7 +34,7 @@ class Api {
   }
 
   createOrder(ingredients) {
-    return this._callApi('/orders', 'POST', {}, { ingredients: ingredients })
+    return this._callApi('/orders', 'POST', this._authHeader(), { ingredients: ingredients })
   }
 
   getUser() {
