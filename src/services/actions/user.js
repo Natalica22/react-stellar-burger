@@ -32,6 +32,7 @@ export const checkUserAuth = () => {
         })
         .finally(() => dispatch(setAuthChecked(true)));
     } else {
+      dispatch(setUser(null));
       dispatch(setAuthChecked(true));
     }
   };

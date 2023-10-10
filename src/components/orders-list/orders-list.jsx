@@ -1,6 +1,5 @@
 import { OrderCard } from "./order-card/order-card";
 import styles from "./orders-list.module.css";
-import { orders } from "../../utils/constants";
 import { useLocation } from "react-router-dom";
 
 export function OrdersList({ orders, showStatus, basePage, className }) {

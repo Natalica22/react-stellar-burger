@@ -1,6 +1,11 @@
-export const socketMiddleware = (wsActions, url) => {
+import { ACCESS_TOKEN } from "../../utils/api";
+import { checkUserAuth } from "../actions/user";
+
+export const socketMiddleware = (wsActions) => {
   return store => {
     let socket = null;
+    let url = null;
+    let isAuth = false;
 
     return next => action => {
       const { dispatch } = store;
@@ -17,7 +22,9 @@ export const socketMiddleware = (wsActions, url) => {
       } = wsActions;
 
       if (type === wsConnect) {
-        socket = new WebSocket(action.payload);
+        url = action.payload.url;
+        isAuth = action.payload.isAuth;
+        socket = new WebSocket(url + (isAuth ? `?token=${localStorage.getItem(ACCESS_TOKEN).replace('Bearer ', '')}` : ''));
         dispatch({ type: wsConnecting });
       }
 
@@ -31,10 +38,17 @@ export const socketMiddleware = (wsActions, url) => {
         };
 
         socket.onmessage = event => {
-          const { data } = event;
-          const parsedData = JSON.parse(data);
+          const parsedData = JSON.parse(event.data);
+          const { success, ...data } = parsedData;
 
-          dispatch({ type: onMessage, payload: parsedData });
+          if (data.message === 'jwt expired' || data.message === 'Invalid or missing token') {
+            socket.close();
+            socket = null;
+            dispatch(checkUserAuth());
+            dispatch({ type: wsConnect, payload: { url, isAuth } });
+          } else {
+            dispatch({ type: onMessage, payload: parsedData });
+          }
         };
 
         socket.onclose = () => {

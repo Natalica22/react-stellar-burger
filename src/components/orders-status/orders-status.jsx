@@ -21,13 +21,13 @@ export function OrdersStatus() {
         <div>
           <h3 className="text text_type_main-medium pb-6">Готовы:</h3>
           <ul className={`${styles.orders_numbers} ${styles.done_orders}`}>
-            {doneOrders.map(e => <li className="text text_type_digits-default">{e.number}</li>)}
+            {doneOrders.map(e => <li className="text text_type_digits-default" key={e._id}>{e.number}</li>)}
           </ul>
         </div>
         <div>
           <h3 className="text text_type_main-medium pb-6">В работе:</h3>
           <ul className={styles.orders_numbers}>
-            {cookingOrders.map(e => <li className="text text_type_digits-default">{e.number}</li>)}
+            {cookingOrders.map(e => <li className="text text_type_digits-default" key={e._id}>{e.number}</li>)}
           </ul>
         </div>
       </div>

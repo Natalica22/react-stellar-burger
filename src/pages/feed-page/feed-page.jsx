@@ -16,7 +16,7 @@ export function FeedPage() {
   const orders = ordersData ? ordersData.orders : [];
 
   useEffect(() => {
-    dispatch({ type: FEED_WS_CONNECT, payload: FEED_WS_URL });
+    dispatch({ type: FEED_WS_CONNECT, payload: { url: FEED_WS_URL } });
     return () => dispatch({ type: FEED_WS_CLOSE });
   }, [dispatch]);
 
