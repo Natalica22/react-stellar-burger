@@ -2,7 +2,7 @@ import { OrdersList } from "../../components/orders-list/orders-list";
 import styles from "./feed-page.module.css";
 import { orders } from "../../utils/constants";
 import { OrdersStatus } from "../../components/orders-status/orders-status";
-import { FEED_ORDER_INFO_PAGE, FEED_PAGE } from "../../utils/pages";
+import { FEED_PAGE } from "../../utils/pages";
 
 export function FeedPage() {
 

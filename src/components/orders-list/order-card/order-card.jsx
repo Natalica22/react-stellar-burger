@@ -3,19 +3,7 @@ import styles from "./order-card.module.css";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-
-function getStatusText(status) {
-  switch (status) {
-    case "done":
-      return "Выполнен";
-    case "pending":
-      return "Готовится";
-    case "created":
-      return "Создан";
-    default:
-      return null;
-  }
-}
+import { STATUS_DONE, getStatusText } from "../../../utils/order";
 
 export function OrderCard({ order, showStatus, basePage, location }) {
   const getIngredients = store => store.burgerIngredients.ingredients;
@@ -46,7 +34,7 @@ export function OrderCard({ order, showStatus, basePage, location }) {
       <div className={styles.container}>
         <p className="text text_type_main-medium">{order.name}</p>
         {showStatus && status &&
-          <p className={`text text_type_main-default ${status === 'Выполнен' ? styles.status_done : ''}`}>{status}</p>
+          <p className={`text text_type_main-default ${order.status === STATUS_DONE ? styles.status_done : ''}`}>{status}</p>
         }
       </div>
       <div className={styles.details}>
