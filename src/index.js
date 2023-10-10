@@ -1,34 +1,12 @@
 import React from "react";
-import { createStore, applyMiddleware, compose } from 'redux';
 import ReactDOM from 'react-dom/client';
 import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
-import { rootReducer } from "./services/reducers";
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+
 import { BrowserRouter as Router } from 'react-router-dom';
-
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
-
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-
-const initialState = {
-  burgerIngredients: {
-    loaded: false,
-    ingredients: []
-  },
-  cart: {
-    bun: null,
-    ingredients: [],
-    order: null
-  }
-}
-
-const store = createStore(rootReducer, initialState, enhancer);
+import { store } from "./services/store";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
