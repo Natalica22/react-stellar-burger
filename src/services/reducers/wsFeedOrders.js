@@ -24,9 +24,7 @@ export const wsFeedOrdersReducer = (state = initialState, action) => {
 
     case FEED_WS_CLOSE:
       return {
-        ...state,
-        error: null,
-        connected: false
+        ...initialState
       };
 
     case FEED_WS_MESSAGE:

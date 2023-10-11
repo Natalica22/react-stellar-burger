@@ -20,6 +20,7 @@ import { FORGOT_PASSWORD_PASSED } from "../../utils/constants";
 import { ProfileOrdersPage } from "../../pages/profile-orders-page/profile-orders-page";
 import { FeedPage } from "../../pages/feed-page/feed-page";
 import { OrderInfo } from "../order-info/order-info";
+import { connectOrdersFeed, connectProfileOrders } from "../../services/actions/wsFeedOrders";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ function App() {
       <Routes location={background || location}>
         <Route path={pages.HOME_PAGE} element={<HomePage />} />
         <Route path={pages.FEED_PAGE} element={<FeedPage />} />
-        <Route path={pages.FEED_ORDER_INFO_PAGE} element={<OrderInfo />} />
+        <Route path={pages.FEED_ORDER_INFO_PAGE} element={<OrderInfo wsConnectAction={connectOrdersFeed()}/>} />
         <Route path={pages.INGREDIENT_DETAILS_PAGE} element={<IngredientDetails />} />
         <Route path={pages.LOGIN_PAGE} element={<OnlyUnAuth component={<LoginPage />} />} />
         <Route path={pages.REGISTER_PAGE} element={<OnlyUnAuth component={<RegisterPage />} />} />
@@ -55,7 +56,7 @@ function App() {
         <Route path={pages.RESET_PASSWORD_PAGE} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
         <Route path={pages.PROFILE_PAGE} element={<OnlyAuth component={<ProfilePage />} />} />
         <Route path={pages.PROFILE_ORDERS_PAGE} element={<OnlyAuth component={<ProfileOrdersPage />} />} />
-        <Route path={pages.PROFILE_ORDER_INFO_PAGE} element={<OnlyAuth component={<OrderInfo />} />} />
+        <Route path={pages.PROFILE_ORDER_INFO_PAGE} element={<OnlyAuth component={<OrderInfo wsConnectAction={connectProfileOrders()} />} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
@@ -70,13 +71,13 @@ function App() {
           <Route path={pages.FEED_ORDER_INFO_PAGE}
             element={
               <Modal handleCloseClick={handleModalClose}>
-                <OrderInfo modal={true} />
+                <OrderInfo wsConnectAction={connectOrdersFeed()} modal={true} />
               </Modal>
             } />
           <Route path={pages.PROFILE_ORDER_INFO_PAGE}
             element={
               <Modal handleCloseClick={handleModalClose}>
-                <OrderInfo modal={true} />
+                <OrderInfo wsConnectAction={connectProfileOrders()} modal={true} />
               </Modal>
             } />
         </Routes>

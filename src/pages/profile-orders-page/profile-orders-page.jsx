@@ -1,9 +1,8 @@
 import { OrdersList } from "../../components/orders-list/orders-list";
 import { ProfileMenu } from "../../components/profile-menu/profile-menu";
 import styles from "./profile-orders-page.module.css";
-import { PROFILE_ORDERS_WS_URL } from "../../utils/constants";
 import { PROFILE_ORDERS_PAGE } from "../../utils/pages";
-import { FEED_WS_CLOSE, FEED_WS_CONNECT } from "../../services/actions/wsFeedOrders";
+import { FEED_WS_CLOSE, connectProfileOrders } from "../../services/actions/wsFeedOrders";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
 
@@ -18,7 +17,7 @@ export function ProfileOrdersPage() {
     [ordersData]);
 
   useEffect(() => {
-    dispatch({ type: FEED_WS_CONNECT, payload: { url: PROFILE_ORDERS_WS_URL, isAuth: true } });
+    dispatch(connectProfileOrders());
     return () => dispatch({ type: FEED_WS_CLOSE });
   }, [dispatch]);
 
