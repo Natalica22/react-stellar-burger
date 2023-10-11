@@ -4,6 +4,8 @@ import { STATUS_DONE, getStatusText } from "../../utils/order";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
+import { wsConnectActionPropType } from "../../utils/prop-types";
+import PropTypes from "prop-types";
 import { FEED_WS_CLOSE } from "../../services/actions/wsFeedOrders";
 
 export function OrderInfo({ wsConnectAction, modal }) {
@@ -43,8 +45,8 @@ export function OrderInfo({ wsConnectAction, modal }) {
 
   useEffect(() => {
     dispatch(wsConnectAction);
-    return () => dispatch({ type: FEED_WS_CLOSE });
-  }, [dispatch, wsConnectAction]);
+    return () => !modal && dispatch({ type: FEED_WS_CLOSE });
+  }, [dispatch, wsConnectAction, modal]);
 
   return (
     order &&
@@ -83,4 +85,9 @@ export function OrderInfo({ wsConnectAction, modal }) {
       </div>
     </div>
   );
+}
+
+OrderInfo.propTypes = {
+  wsConnectAction: wsConnectActionPropType.isRequired,
+  modal: PropTypes.bool
 }

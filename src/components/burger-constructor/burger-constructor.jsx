@@ -26,7 +26,7 @@ export default function BurgerConstructor() {
   const getOrder = store => store.order;
   const modalVisible = useSelector(getOrder);
 
-  const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price * 2 : 0), [cart]);
+  const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price : 0), [cart]);
 
   const canOrder = useMemo(() => cart.bun && cart.ingredients.length > 0, [cart]);
 

@@ -1,9 +1,11 @@
+import PropTypes from "prop-types";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-card.module.css";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { STATUS_DONE, getStatusText } from "../../../utils/order";
+import { orderPropType } from "../../../utils/prop-types";
 
 export function OrderCard({ order, showStatus, basePage, location }) {
   const getIngredients = store => store.burgerIngredients.ingredients;
@@ -11,7 +13,7 @@ export function OrderCard({ order, showStatus, basePage, location }) {
 
   const orderIngredients = useMemo(() => order.ingredients
     .map(e => ingredients.find(i => e === i._id))
-    .filter(e => e !== undefined), [ingredients]);
+    .filter(e => e !== undefined), [ingredients, order]);
 
   const uniqueIngredients = orderIngredients.reduce((result, e) =>
     result.some(elem => elem._id === e._id) ? result : [...result, e], []);
@@ -61,4 +63,11 @@ export function OrderCard({ order, showStatus, basePage, location }) {
       </div>
     </Link>
   )
+}
+
+OrderCard.prototype = {
+  order: orderPropType.isRequired,
+  showStatus: PropTypes.bool,
+  basePage: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired
 }
