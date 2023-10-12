@@ -10,24 +10,3 @@
   width: 100%;
   column-gap: calc(var(--offset-base-size) * 15);
 }
-
-.profile {
-  padding-top: calc(var(--offset-base-size) * 30);
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  row-gap: calc(var(--offset-base-size) * 6);
-}
-
-.buttons {
-  display: flex;
-  justify-content: flex-end;
-  column-gap: calc(var(--offset-base-size) * 5);
-}
-
-.cancel {
-  width: 74px;
-  padding: 16px 8px;
-}

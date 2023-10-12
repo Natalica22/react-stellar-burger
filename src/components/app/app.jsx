@@ -17,10 +17,11 @@ import * as pages from "../../utils/pages"
 import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route/protected-route";
 import { FORGOT_PASSWORD_PASSED } from "../../utils/constants";
-import { ProfileOrdersPage } from "../../pages/profile-orders-page/profile-orders-page";
 import { FeedPage } from "../../pages/feed-page/feed-page";
 import { OrderInfo } from "../order-info/order-info";
 import { connectOrdersFeed, connectProfileOrders } from "../../services/actions/wsFeedOrders";
+import { ProfileForm } from "../profile-form/profile-form";
+import { ProfileOrders } from "../profile-orders/profile-orders";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,8 +55,10 @@ function App() {
         <Route path={pages.REGISTER_PAGE} element={<OnlyUnAuth component={<RegisterPage />} />} />
         <Route path={pages.FORGOT_PASSWORD_PAGE} element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
         <Route path={pages.RESET_PASSWORD_PAGE} element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
-        <Route path={pages.PROFILE_PAGE} element={<OnlyAuth component={<ProfilePage />} />} />
-        <Route path={pages.PROFILE_ORDERS_PAGE} element={<OnlyAuth component={<ProfileOrdersPage />} />} />
+        <Route path={pages.PROFILE_PAGE} element={<OnlyAuth component={<ProfilePage />} />} >
+          <Route path="" element={<ProfileForm />} />
+          <Route path={pages.PROFILE_ORDERS_PATH} element={<ProfileOrders />} />
+        </Route>
         <Route path={pages.PROFILE_ORDER_INFO_PAGE} element={<OnlyAuth component={<OrderInfo wsConnectAction={connectProfileOrders()} />} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
