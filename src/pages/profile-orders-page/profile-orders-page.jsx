@@ -12,8 +12,8 @@ export function ProfileOrdersPage() {
   const getOrdersData = store => store.wsFeedOrders.data;
   const ordersData = useSelector(getOrdersData);
 
-  const orders = useMemo(() => 
-    ordersData ? ordersData.orders.toReversed() : [],
+  const orders = useMemo(() =>
+    ordersData?.orders.toReversed() || [],
     [ordersData]);
 
   useEffect(() => {
