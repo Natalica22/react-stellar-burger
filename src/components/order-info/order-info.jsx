@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { wsConnectActionPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
-import { FEED_WS_CLOSE } from "../../services/actions/wsFeedOrders";
+import { disconnect } from "../../services/actions/wsFeedOrders";
 
 export function OrderInfo({ wsConnectAction, modal }) {
   const params = useParams();
@@ -44,8 +44,10 @@ export function OrderInfo({ wsConnectAction, modal }) {
   const status = useMemo(() => order && getStatusText(order.status), [order]);
 
   useEffect(() => {
-    dispatch(wsConnectAction);
-    return () => !modal && dispatch({ type: FEED_WS_CLOSE });
+    if (!modal) {
+      dispatch(wsConnectAction);
+      return () => dispatch(disconnect());
+    }
   }, [dispatch, wsConnectAction, modal]);
 
   return (

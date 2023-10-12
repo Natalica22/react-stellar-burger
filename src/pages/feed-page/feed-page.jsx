@@ -4,7 +4,7 @@ import { OrdersStatus } from "../../components/orders-status/orders-status";
 import { FEED_PAGE } from "../../utils/pages";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { FEED_WS_CLOSE, connectOrdersFeed } from "../../services/actions/wsFeedOrders";
+import { connectOrdersFeed, disconnect } from "../../services/actions/wsFeedOrders";
 
 export function FeedPage() {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export function FeedPage() {
 
   useEffect(() => {
     dispatch(connectOrdersFeed());
-    return () => dispatch({ type: FEED_WS_CLOSE });
+    return () => dispatch(disconnect());
   }, [dispatch]);
 
   return (

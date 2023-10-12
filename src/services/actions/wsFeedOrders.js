@@ -36,3 +36,9 @@ export function connectProfileOrders() {
     }
   };
 }
+
+export function disconnect() {
+  return {
+    type: FEED_WS_DISCONNECT
+  }
+}
