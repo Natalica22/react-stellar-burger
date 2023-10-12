@@ -5,10 +5,10 @@ import IngredientsGroup from "./ingredients-group/ingredients-group";
 import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../utils/constants";
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
+import { getIngredients } from "../../utils/ingredients";
 
 
 export default function BurgerIngredients() {
-  const getIngredients = store => store.burgerIngredients.ingredients;
   const ingredients = useSelector(getIngredients);
 
   const ingredientsByType = useMemo(() =>

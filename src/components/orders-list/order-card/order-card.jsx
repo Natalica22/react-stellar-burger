@@ -6,9 +6,9 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { STATUS_DONE, getStatusText } from "../../../utils/order";
 import { orderPropType } from "../../../utils/prop-types";
+import { getIngredients } from "../../../utils/ingredients";
 
 export function OrderCard({ order, showStatus, basePage, location }) {
-  const getIngredients = store => store.burgerIngredients.ingredients;
   const ingredients = useSelector(getIngredients);
 
   const orderIngredients = useMemo(() => order.ingredients

@@ -7,6 +7,7 @@ import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burge
 import { wsConnectActionPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
 import { disconnect } from "../../services/actions/wsFeedOrders";
+import { getIngredients } from "../../utils/ingredients";
 
 export function OrderInfo({ wsConnectAction, modal }) {
   const params = useParams();
@@ -19,7 +20,6 @@ export function OrderInfo({ wsConnectAction, modal }) {
     ordersData ? ordersData.orders.toReversed() : [],
     [ordersData]);
 
-  const getIngredients = store => store.burgerIngredients.ingredients;
   const ingredients = useSelector(getIngredients);
 
   const order = useMemo(() => orders.find(e => e._id === params.id), [orders, params]);
