@@ -8,11 +8,11 @@ import styles from "./app-header.module.css";
 import * as pages from "../../utils/pages"
 import { Link, NavLink } from "react-router-dom";
 
-function getLinkClass({ isActive }) {
+function getLinkClass({ isActive }: { isActive: boolean }) {
   return `${styles.link} text text_type_main-default pt-4 pb-4 pl-5 pr-5 ` + (isActive ? styles.link_active : 'text_color_inactive');
 }
 
-function getIconType(isActive) {
+function getIconType(isActive: boolean) {
   return isActive ? 'primary' : 'secondary';
 }
 
