@@ -1,0 +1,6 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  box-sizing: border-box;
+}

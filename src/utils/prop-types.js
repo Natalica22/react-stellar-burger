@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { ingredientsTypes } from "./constants";
+import { ORDER_STATUSES } from "./order";
 
 export const ingredientPropType = PropTypes.shape({
   "_id": PropTypes.string.isRequired,
@@ -17,3 +18,21 @@ export const ingredientPropType = PropTypes.shape({
 });
 
 export const ingredientArrayPropType = PropTypes.arrayOf(ingredientPropType.isRequired);
+
+const wsConnectInfo = PropTypes.shape({
+  "url": PropTypes.string.isRequired,
+  "isAuth": PropTypes.bool
+});
+export const wsConnectActionPropType = PropTypes.shape({
+  "type": PropTypes.string.isRequired,
+  "payload": wsConnectInfo.isRequired
+});
+
+export const orderPropType = PropTypes.shape({
+  "_id": PropTypes.string.isRequired,
+  "ingredients": PropTypes.arrayOf(PropTypes.string).isRequired,
+  "status": PropTypes.oneOf(ORDER_STATUSES).isRequired,
+  "number": PropTypes.number.isRequired,
+  "createdAt": PropTypes.string.isRequired,
+  "updatedAt": PropTypes.string.isRequired,
+});
