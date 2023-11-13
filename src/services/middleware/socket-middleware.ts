@@ -1,10 +1,12 @@
+import { Middleware } from "redux";
 import { ACCESS_TOKEN } from "../../utils/api";
 import { checkUserAuth } from "../actions/user";
+import { WsActionsObject } from "../actions/wsFeedOrders";
 
-export const socketMiddleware = (wsActions) => {
+export const socketMiddleware = (wsActions: WsActionsObject): Middleware => {
   return store => {
-    let socket = null;
-    let url = null;
+    let socket: WebSocket | null = null;
+    let url: string | null = null;
     let isAuth = false;
 
     return next => action => {
@@ -12,7 +14,6 @@ export const socketMiddleware = (wsActions) => {
       const { type } = action;
       const {
         wsConnect,
-        wsSendMessage,
         onOpen,
         onClose,
         onError,
@@ -24,7 +25,7 @@ export const socketMiddleware = (wsActions) => {
       if (type === wsConnect) {
         url = action.payload.url;
         isAuth = action.payload.isAuth;
-        socket = new WebSocket(url + (isAuth ? `?token=${localStorage.getItem(ACCESS_TOKEN).replace('Bearer ', '')}` : ''));
+        socket = new WebSocket(url + (isAuth ? `?token=${localStorage.getItem(ACCESS_TOKEN)?.replace('Bearer ', '')}` : ''));
         dispatch({ type: wsConnecting });
       }
 
@@ -42,9 +43,9 @@ export const socketMiddleware = (wsActions) => {
           const { success, ...data } = parsedData;
 
           if (data.message === 'jwt expired' || data.message === 'Invalid or missing token') {
-            socket.close();
+            socket?.close();
             socket = null;
-            dispatch(checkUserAuth());
+            dispatch(checkUserAuth() as any);
             dispatch({ type: wsConnect, payload: { url, isAuth } });
           } else {
             dispatch({ type: onMessage, payload: parsedData });
@@ -54,10 +55,6 @@ export const socketMiddleware = (wsActions) => {
         socket.onclose = () => {
           dispatch({ type: onClose });
         };
-
-        if (type === wsSendMessage) {
-          socket.send(JSON.stringify(action.payload));
-        }
 
         if (type === wsDisconnect) {
           socket.close();

@@ -1,17 +1,24 @@
 import { bun } from "../../utils/constants";
+import { Ingredient } from "../../utils/types";
 import {
   ADD_INGREDIENT,
   CLEAN_CART,
+  CartActions,
   DELETE_INGREDIENT,
   MOVE_INGREDIENT
 } from "../actions/cart";
 
-const initialState = {
+type CartState = {
+  bun: number | null;
+  ingredients: Ingredient[];
+}
+
+const initialState: CartState = {
   bun: null,
   ingredients: []
 }
 
-export const cartReducer = (state = initialState, action) => {
+export const cartReducer = (state = initialState, action: CartActions) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       if (action.ingredient.type === bun) {

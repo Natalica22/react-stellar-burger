@@ -1,20 +1,37 @@
+import { ThunkAction } from "redux-thunk";
 import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api"
+import { AppDispatch, RootState, User } from "../../utils/types";
+import { AnyAction } from "redux";
 
-export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
-export const SET_USER = "SET_USER";
+export const SET_AUTH_CHECKED: 'SET_AUTH_CHECKED' = 'SET_AUTH_CHECKED';
+export const SET_USER: 'SET_USER' = 'SET_USER';
 
-export const setAuthChecked = (value) => ({
+type SetAuthChecked = {
+  readonly type: typeof SET_AUTH_CHECKED;
+  payload: boolean
+}
+
+type SetUser = {
+  readonly type: typeof SET_USER;
+  payload: User | null;
+}
+
+export type UserActions = 
+  | SetAuthChecked
+  | SetUser;
+
+export const setAuthChecked = (value: boolean): SetAuthChecked => ({
   type: SET_AUTH_CHECKED,
   payload: value,
 });
 
-export const setUser = (user) => ({
+export const setUser = (user: User | null): SetUser => ({
   type: SET_USER,
   payload: user,
 });
 
 export const getUser = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     return api.getUser()
       .then((res) => dispatch(setUser(res.user)))
       .catch(error => console.log(error));
@@ -22,7 +39,7 @@ export const getUser = () => {
 };
 
 export const checkUserAuth = () => {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     if (localStorage.getItem(ACCESS_TOKEN)) {
       dispatch(getUser())
         .catch(() => {
@@ -38,8 +55,8 @@ export const checkUserAuth = () => {
   };
 };
 
-export const patchUser = (user) => {
-  return (dispatch) => {
+export const patchUser = (user: User) => {
+  return (dispatch: AppDispatch) => {
     api.patchUser(user)
       .then(res => {
         dispatch(setUser(res.user));

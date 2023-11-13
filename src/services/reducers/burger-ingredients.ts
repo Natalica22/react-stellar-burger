@@ -1,15 +1,22 @@
+import { Ingredient } from "../../utils/types";
 import {
+  BurgerIngredientsActions,
   GET_INGREDIENTS_ERROR,
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS 
 } from "../actions/burger-ingredients";
 
-const initialState = {
+type BurgerIngredientsState = {
+  loaded: boolean;
+  ingredients: Ingredient[];
+}
+
+const initialState: BurgerIngredientsState = {
   loaded: false,
   ingredients: []
 }
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (state = initialState, action: BurgerIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

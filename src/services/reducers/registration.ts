@@ -1,12 +1,18 @@
-import { REGISTRATION_ERROR, REGISTRATION_REQUEST, REGISTRATION_SUCCESS } from "../actions/registration";
+import { REGISTRATION_ERROR, REGISTRATION_REQUEST, REGISTRATION_SUCCESS, RegistrationActions } from "../actions/registration";
 
-export const initialState = {
+type RegistrationState = {
+  success: boolean;
+  request: boolean;
+  error: string | null;
+}
+
+export const initialState: RegistrationState = {
   success: false,
   request: false,
   error: null,
 }
 
-export const registrationReducer = (state = initialState, action) => {
+export const registrationReducer = (state = initialState, action: RegistrationActions) => {
   switch (action.type) {
     case REGISTRATION_REQUEST:
       return {

@@ -1,12 +1,19 @@
-import { FEED_WS_CLOSE, FEED_WS_ERROR, FEED_WS_MESSAGE, FEED_WS_OPEN } from "../actions/wsFeedOrders";
+import { FeedMessage } from "../../utils/types";
+import { FEED_WS_CLOSE, FEED_WS_ERROR, FEED_WS_MESSAGE, FEED_WS_OPEN, FeedWsActions } from "../actions/wsFeedOrders";
 
-const initialState = {
+type WsFeedOrdersState = {
+  connected: boolean;
+  data: FeedMessage | null;
+  error: string | null;
+}
+
+const initialState: WsFeedOrdersState = {
   connected: false,
   data: null,
   error: null
 };
 
-export const wsFeedOrdersReducer = (state = initialState, action) => {
+export const wsFeedOrdersReducer = (state = initialState, action: FeedWsActions) => {
   switch (action.type) {
     case FEED_WS_OPEN:
       return {
