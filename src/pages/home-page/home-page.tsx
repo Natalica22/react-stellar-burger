@@ -4,9 +4,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./home-page.module.css";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
+import { RootState } from '../../utils/types';
 
 export function HomePage() {
-  const getBurgerIngredientsLoaded = store => store.burgerIngredients.loaded;
+  const getBurgerIngredientsLoaded = (store: RootState) => store.burgerIngredients.loaded;
   const loaded = useSelector(getBurgerIngredientsLoaded);
 
   return (

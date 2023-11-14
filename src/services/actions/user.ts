@@ -1,7 +1,5 @@
-import { ThunkAction } from "redux-thunk";
 import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api"
-import { AppDispatch, RootState, User } from "../../utils/types";
-import { AnyAction } from "redux";
+import { AppDispatch, User } from "../../utils/types";
 
 export const SET_AUTH_CHECKED: 'SET_AUTH_CHECKED' = 'SET_AUTH_CHECKED';
 export const SET_USER: 'SET_USER' = 'SET_USER';

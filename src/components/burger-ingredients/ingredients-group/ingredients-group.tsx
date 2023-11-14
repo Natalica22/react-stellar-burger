@@ -1,9 +1,15 @@
-import { ingredientArrayPropType } from "../../../utils/prop-types";
+import { Ingredient, IngredientsTypes, RefType } from "../../../utils/types";
 import IngredientCard from "../ingredient-card/ingredient-card";
 import styles from "./ingredients-group.module.css";
-import PropTypes from "prop-types";
 
-export default function IngredientsGroup({ title, ingredients, inViewRef, ingredientType }) {
+type Props = {
+  title: string;
+  ingredients: Ingredient[];
+  inViewRef: RefType;
+  ingredientType: IngredientsTypes;
+}
+
+export default function IngredientsGroup({ title, ingredients, inViewRef, ingredientType }: Props) {
 
   return (
     <div ref={inViewRef} id={ingredientType}>
@@ -13,10 +19,4 @@ export default function IngredientsGroup({ title, ingredients, inViewRef, ingred
       </ul>
     </div>
   );
-}
-
-IngredientsGroup.propTypes = {
-  title: PropTypes.string.isRequired,
-  ingredients: ingredientArrayPropType.isRequired,
-  inViewRef: PropTypes.any,
 }

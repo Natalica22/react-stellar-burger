@@ -1,15 +1,21 @@
 import { useParams } from "react-router-dom";
 import styles from "./ingredient-details.module.css";
 import { useSelector } from "react-redux";
+import { Ingredient, RootState } from "../../utils/types";
 
-export default function IngredientDetails({ modal }) {
+type Props = {
+  modal?: boolean
+}
+
+export default function IngredientDetails({ modal }: Props) {
   const params = useParams();
-  const getIngredient = store => {
-    return store.burgerIngredients.ingredients.find(elem => elem._id === params.ingredientId) || {}
+  const getIngredient = (store: RootState): Ingredient | null => {
+    return store.burgerIngredients.ingredients.find(elem => elem._id === params.ingredientId) || null
   }
   const ingredient = useSelector(getIngredient);
 
   return (
+    ingredient &&
     <div className={modal ? styles.container_modal : styles.container}>
       <h2 className={`${modal ? styles.title_modal : ''} text text_type_main-large pt-3 pb-3`}>Детали ингредиента</h2>
       <img src={ingredient.image_large} alt={ingredient.name} />

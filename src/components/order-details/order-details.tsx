@@ -1,17 +1,19 @@
 import { useSelector } from "react-redux";
 import doneImage from "../../images/done.svg";
 import styles from "./order-details.module.css";
+import { RootState } from "../../utils/types";
 
 export default function OrderDetails() {
-  const getOrder = store => store.order;
+  const getOrderState = (store: RootState) => store.order;
 
-  const order = useSelector(getOrder);
+  const orderState = useSelector(getOrderState);
 
   return (
+    !orderState.created ? null :
     <div className={styles.container}>
       {
-        (order.number) ? 
-        <h2 className={`text text_type_digits-large pt-20 pb-8 ${styles.order_number}`}>{order.number}</h2> :
+        orderState.order ? 
+        <h2 className={`text text_type_digits-large pt-20 pb-8 ${styles.order_number}`}>{orderState.order.number}</h2> :
         <h2 className={`text text_type_main-large pt-20 pb-8 ${styles.order_number}`}>Оформление заказа...</h2>
       }
       <p className="text text_type_main-medium">идентификатор заказа</p>

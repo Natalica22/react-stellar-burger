@@ -5,19 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../services/actions/login';
 import { useRef } from 'react';
 import { useForm } from '../../hooks/useForm';
+import { RootState, UserForm } from '../../utils/types';
 
 export function LoginPage() {
   const dispatch = useDispatch();
 
-  const getError = store => store.login.error;
+  const getError = (store: RootState) => store.login.error;
   const error = useSelector(getError);
   const hasError = error != null;
 
-  const {form, onChange} = useForm({ email: '', password: '' });
+  const {form, onChange} = useForm({ email: '', password: '' } as UserForm);
 
   const inputRef = useRef(null);
 
-  const submitForm = e => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(loginUser(form));
   }

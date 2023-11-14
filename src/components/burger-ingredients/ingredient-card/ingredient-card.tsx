@@ -1,16 +1,19 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ingredient-card.module.css";
-import { ingredientPropType } from "../../../utils/prop-types";
 import { useSelector } from "react-redux";
 import { useDrag } from 'react-dnd';
 import { bun } from "../../../utils/constants";
 import { Link, useLocation } from "react-router-dom";
+import { Ingredient, RootState } from "../../../utils/types";
 
+type Props = {
+  ingredient: Ingredient;
+}
 
-export default function IngredientCard({ ingredient }) {
+export default function IngredientCard({ ingredient }: Props) {
   const location = useLocation();
 
-  const getCount = store => {
+  const getCount = (store: RootState) => {
     if (ingredient.type === bun) {
       return store.cart.bun && store.cart.bun._id === ingredient._id ? 2 : 0;
     } else {
@@ -42,8 +45,4 @@ export default function IngredientCard({ ingredient }) {
       <p className={`${styles.name} text text_type_main-default`}>{ingredient.name}</p>
     </Link>
   );
-}
-
-IngredientCard.propTypes = {
-  ingredient: ingredientPropType.isRequired,
 }

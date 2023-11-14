@@ -83,3 +83,9 @@ export type FeedMessage = {
   total: number;
   totalToday: number;
 }
+
+export type RefType = (node?: Element | null | undefined) => void;
+
+export type Uuid = {
+  uid: string;
+}

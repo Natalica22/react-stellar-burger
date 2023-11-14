@@ -7,19 +7,29 @@ import {
   OrderActions
 } from "../actions/order";
 
-export const orderReducer = (state: Order | null = null, action: OrderActions) => {
+type OrderState = {
+  created: boolean;
+  order: Order | null;
+}
+
+const initialState: OrderState = {
+  created: false,
+  order: null
+}
+
+export const orderReducer = (state = initialState, action: OrderActions) => {
   switch (action.type) {
     case CREATE_ORDER_REQUEST: {
-      return {};
+      return { ...state, created: true };
     }
     case CREATE_ORDER_SUCCESS: {
-      return action.order;
+      return { ...state, order: action.order } ;
     }
     case CREATE_ORDER_ERROR: {
-      return null;
+      return initialState;
     }
     case CLOSE_ORDER_MODAL: {
-      return null;
+      return initialState;
     }
     default: {
       return state;

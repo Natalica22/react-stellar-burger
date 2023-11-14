@@ -1,5 +1,5 @@
 import { bun } from "../../utils/constants";
-import { Ingredient } from "../../utils/types";
+import { Ingredient, Uuid } from "../../utils/types";
 import {
   ADD_INGREDIENT,
   CLEAN_CART,
@@ -9,8 +9,8 @@ import {
 } from "../actions/cart";
 
 type CartState = {
-  bun: number | null;
-  ingredients: Ingredient[];
+  bun: Ingredient | null;
+  ingredients: (Ingredient & Uuid)[];
 }
 
 const initialState: CartState = {

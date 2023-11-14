@@ -6,7 +6,13 @@ import { bun, sauce, main, ingredientsTypes, ingredientsTitles } from "../../uti
 import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { getIngredients } from "../../utils/ingredients";
+import { Ingredient, IngredientsTypes } from "../../utils/types";
 
+type IngredientsGroups = {
+  bun: Ingredient[];
+  sauce: Ingredient[];
+  main: Ingredient[];
+}
 
 export default function BurgerIngredients() {
   const ingredients = useSelector(getIngredients);
@@ -19,7 +25,7 @@ export default function BurgerIngredients() {
       bun: [],
       sauce: [],
       main: []
-    }), [ingredients]);
+    } as IngredientsGroups), [ingredients]);
 
   const [bunRef, bunInView] = useInView({ threshold: 0.05 });
   const [sauceRef, sauceInView] = useInView({ threshold: 0.05 });
@@ -33,8 +39,8 @@ export default function BurgerIngredients() {
 
   const currentIngridientTab = useMemo(() => bunInView ? bun : sauceInView ? sauce : mainInView ? main : null, [bunInView, sauceInView, mainInView]);
 
-  const scrollToGroup = (ingredientType) => {
-    document.querySelector('#' + ingredientType).scrollIntoView({ block: "start", behavior: "smooth" });
+  const scrollToGroup = (ingredientType: IngredientsTypes) => {
+    document.querySelector('#' + ingredientType)?.scrollIntoView({ block: "start", behavior: "smooth" });
   }
 
   return (

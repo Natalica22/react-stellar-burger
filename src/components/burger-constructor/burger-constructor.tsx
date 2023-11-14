@@ -15,27 +15,28 @@ import { v4 as uuidv4 } from 'uuid';
 import { CLOSE_ORDER_MODAL, sendOrder } from "../../services/actions/order";
 import { LOGIN_PAGE } from "../../utils/pages";
 import { useNavigate } from "react-router-dom";
+import { Ingredient, RootState } from "../../utils/types";
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getCart = store => store.cart;
+  const getCart = (store: RootState) => store.cart;
   const cart = useSelector(getCart);
 
-  const getOrder = store => store.order;
-  const modalVisible = useSelector(getOrder);
+  const hasOrder = (store: RootState) => store.order.created;
+  const modalVisible = useSelector(hasOrder);
 
   const total = useMemo(() => cart.ingredients.reduce((result, e) => e.price + result, cart.bun ? cart.bun.price : 0), [cart]);
 
   const canOrder = useMemo(() => cart.bun && cart.ingredients.length > 0, [cart]);
 
-  const getUser = store => store.user.user;
+  const getUser = (store: RootState) => store.user.user;
   const user = useSelector(getUser);
 
   const submitOrder = () => {
     if (user){
-      dispatch(sendOrder([cart.bun, ...cart.ingredients].map(e => e._id)));
+      dispatch(sendOrder([cart.bun as Ingredient, ...cart.ingredients].map(e => e._id)));
     } else {
       navigate(LOGIN_PAGE);
     }
@@ -93,7 +94,7 @@ export default function BurgerConstructor() {
       <div className={`${styles.container} pt-10`}>
         <div className={styles.price}>
           <p className="text text_type_digits-medium">{total}</p>
-          <CurrencyIcon type="primary" extraClass={styles.icon} />
+          <CurrencyIcon type="primary" />
         </div>
         <Button htmlType="button" type="primary" size="large" onClick={submitOrder} disabled={!canOrder}>
           Оформить заказ
