@@ -35,7 +35,6 @@ type FeedWsClose = {
 
 type FeedWsError = {
   readonly type: typeof FEED_WS_ERROR;
-  payload: string;
 }
 
 type FeedWsMessage = {

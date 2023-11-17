@@ -4,13 +4,11 @@ import { FEED_WS_CLOSE, FEED_WS_ERROR, FEED_WS_MESSAGE, FEED_WS_OPEN, FeedWsActi
 type WsFeedOrdersState = {
   connected: boolean;
   data: FeedMessage | null;
-  error: string | null;
 }
 
 const initialState: WsFeedOrdersState = {
   connected: false,
   data: null,
-  error: null
 };
 
 export const wsFeedOrdersReducer = (state = initialState, action: FeedWsActions) => {
@@ -25,7 +23,6 @@ export const wsFeedOrdersReducer = (state = initialState, action: FeedWsActions)
     case FEED_WS_ERROR:
       return {
         ...state,
-        error: action.payload,
         connected: false
       };
 
@@ -37,7 +34,6 @@ export const wsFeedOrdersReducer = (state = initialState, action: FeedWsActions)
     case FEED_WS_MESSAGE:
       return {
         ...state,
-        error: null,
         data: action.payload
       };
 
