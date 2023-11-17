@@ -1,23 +1,26 @@
-import { OrdersList } from "../../components/orders-list/orders-list";
+import { OrdersList } from "../orders-list/orders-list";
 import styles from "./profile-orders.module.css";
 import { PROFILE_ORDERS_PAGE } from "../../utils/pages";
 import { connectProfileOrders, disconnect } from "../../services/actions/wsFeedOrders";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
+import { RootState } from "../../utils/types";
 
 export function ProfileOrders() {
   const dispatch = useDispatch();
 
-  const getOrdersData = store => store.wsFeedOrders.data;
+  const getOrdersData = (store: RootState) => store.wsFeedOrders.data;
   const ordersData = useSelector(getOrdersData);
 
   const orders = useMemo(() =>
-    ordersData?.orders.toReversed() || [],
+    ordersData ? [...ordersData.orders].reverse() : [],
     [ordersData]);
 
   useEffect(() => {
     dispatch(connectProfileOrders());
-    return () => dispatch(disconnect());
+    return () => {
+      dispatch(disconnect())
+    };
   }, [dispatch]);
 
   return (

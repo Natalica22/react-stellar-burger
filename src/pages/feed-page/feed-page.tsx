@@ -5,18 +5,21 @@ import { FEED_PAGE } from "../../utils/pages";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { connectOrdersFeed, disconnect } from "../../services/actions/wsFeedOrders";
+import { RootState } from "../../utils/types";
 
 export function FeedPage() {
   const dispatch = useDispatch();
 
-  const getOrdersData = store => store.wsFeedOrders.data;
+  const getOrdersData = (store: RootState) => store.wsFeedOrders.data;
   const ordersData = useSelector(getOrdersData);
 
   const orders = ordersData ? ordersData.orders : [];
 
   useEffect(() => {
     dispatch(connectOrdersFeed());
-    return () => dispatch(disconnect());
+    return () => { 
+      dispatch(disconnect())
+    };
   }, [dispatch]);
 
   return (

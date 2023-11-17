@@ -5,18 +5,19 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../services/actions/registration';
 import { useForm } from '../../hooks/useForm';
+import { RegistrationForm, RootState } from '../../utils/types';
 
 export function RegisterPage() {
   const dispatch = useDispatch();
 
-  const getError = store => store.registration.error;
+  const getError = (store: RootState) => store.registration.error;
   const error = useSelector(getError);
   const hasError = error != null;
 
-  const {form, onChange} = useForm({ name: '', email: '', password: '' });
+  const {form, onChange} = useForm<RegistrationForm>({ name: '', email: '', password: '' });
   const inputRef = useRef(null);
 
-  const submitForm = e => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(registerUser(form));
   }

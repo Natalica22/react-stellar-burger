@@ -56,7 +56,7 @@ export default function BurgerConstructor() {
     },
   });
 
-  const moveElement = useCallback((dragIndex, hoverIndex) => {
+  const moveElement = useCallback((dragIndex: number, hoverIndex: number) => {
     dispatch({ type: MOVE_INGREDIENT, fromIndex: dragIndex, toIndex: hoverIndex });
   }, [dispatch]);
 

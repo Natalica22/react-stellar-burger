@@ -15,6 +15,21 @@ export type UserForm = {
   password: string;
 }
 
+export type ForgotPasswordForm = {
+  email: string;
+}
+
+export type ResetPasswordForm = {
+  password: string;
+  token: string;
+}
+
+export type ProfileEditForm = {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export type User = {
   email: string;
   name: string;
@@ -63,7 +78,8 @@ export type OrderStatus = OrderStatusDone | OrderStatusPending | OrderStatusCrea
 
 export type Order = {
   _id: string;
-  ingredients: Ingredient[];
+  name: string;
+  ingredients: string[];
   status: OrderStatus;
   number: number;
   createdAt: string;
@@ -88,4 +104,8 @@ export type RefType = (node?: Element | null | undefined) => void;
 
 export type Uuid = {
   uid: string;
+}
+
+export type Countable = {
+  count: number;
 }

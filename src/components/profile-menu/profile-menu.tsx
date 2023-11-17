@@ -5,7 +5,11 @@ import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api";
 import { setUser } from "../../services/actions/user";
 import * as pages from "../../utils/pages"
 
-function getLinkClass({ isActive }) {
+type Props = {
+  isActive: boolean;
+}
+
+function getLinkClass({ isActive }: Props) {
   return `${styles.link} text text_type_main-medium ` + (isActive ? styles.active_link : 'text_color_inactive');
 }
 
@@ -39,6 +43,7 @@ export function ProfileMenu() {
           История заказов
         </NavLink>
         <Link
+          to="#"
           className={`${styles.link} text text_type_main-medium text_color_inactive`}
           onClick={logout}>
           Выход

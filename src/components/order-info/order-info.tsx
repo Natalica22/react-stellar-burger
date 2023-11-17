@@ -4,20 +4,24 @@ import { STATUS_DONE, getStatusText } from "../../utils/order";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { wsConnectActionPropType } from "../../utils/prop-types";
-import PropTypes from "prop-types";
-import { disconnect } from "../../services/actions/wsFeedOrders";
+import { FeedWsConnect, disconnect } from "../../services/actions/wsFeedOrders";
 import { getIngredients } from "../../utils/ingredients";
+import { Countable, Ingredient, RootState } from "../../utils/types";
 
-export function OrderInfo({ wsConnectAction, modal }) {
+type Props = {
+  wsConnectAction: FeedWsConnect;
+  modal?: boolean;
+}
+
+export function OrderInfo({ wsConnectAction, modal }: Props) {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const getOrdersData = store => store.wsFeedOrders.data;
+  const getOrdersData = (store: RootState) => store.wsFeedOrders.data;
   const ordersData = useSelector(getOrdersData);
 
   const orders = useMemo(() => 
-    ordersData ? ordersData.orders.toReversed() : [],
+    ordersData ? [...ordersData.orders].reverse() : [],
     [ordersData]);
 
   const ingredients = useSelector(getIngredients);
@@ -26,7 +30,7 @@ export function OrderInfo({ wsConnectAction, modal }) {
 
   const orderIngredients = useMemo(() => order ? order.ingredients
     .map(e => ingredients.find(i => e === i._id))
-    .filter(e => e !== undefined) : [], [order, ingredients]);
+    .filter(e => e !== undefined) as Ingredient[] : [], [order, ingredients]);
 
   const price = orderIngredients.reduce((result, e) => e.price + result, 0);
 
@@ -39,19 +43,21 @@ export function OrderInfo({ wsConnectAction, modal }) {
       const newIngredient = { ...e, count: 1 };
       return [...result, newIngredient];
     }
-  }, []);
+  }, [] as (Ingredient & Countable)[]);
 
   const status = useMemo(() => order && getStatusText(order.status), [order]);
 
   useEffect(() => {
     if (!modal) {
       dispatch(wsConnectAction);
-      return () => dispatch(disconnect());
+      return () => {
+        dispatch(disconnect())
+      };
     }
   }, [dispatch, wsConnectAction, modal]);
 
   return (
-    order &&
+    !order ? null :
     <div className={styles.order}>
       <div className={modal ? styles.container_modal : styles.container}>
         <p className={`text text_type_digits-default ${modal ? styles.number_modal : styles.number}`}>#{order.number}</p>
@@ -87,9 +93,4 @@ export function OrderInfo({ wsConnectAction, modal }) {
       </div>
     </div>
   );
-}
-
-OrderInfo.propTypes = {
-  wsConnectAction: wsConnectActionPropType.isRequired,
-  modal: PropTypes.bool
 }

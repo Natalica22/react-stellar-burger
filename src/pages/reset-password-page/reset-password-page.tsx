@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { api } from '../../utils/api';
 import { HOME_PAGE, LOGIN_PAGE } from '../../utils/pages';
 import { useForm } from '../../hooks/useForm';
+import { ResetPasswordForm } from '../../utils/types';
 
 export function ResetPasswordPage() {
   if (!localStorage.getItem(FORGOT_PASSWORD_PASSED)) {
@@ -18,12 +19,12 @@ export function ResetPasswordPage() {
 function ResetPasswordPageImpl() {
   const navigate = useNavigate();
 
-  const {form, onChange} = useForm({ password: '', token: '' });
+  const {form, onChange} = useForm<ResetPasswordForm>({ password: '', token: '' });
 
   const [error, setError] = useState(false);
   const inputRef = useRef(null);
 
-  const submitForm = e => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     api.resetPassword(form)
       .then(() => {

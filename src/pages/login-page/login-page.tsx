@@ -14,7 +14,7 @@ export function LoginPage() {
   const error = useSelector(getError);
   const hasError = error != null;
 
-  const {form, onChange} = useForm({ email: '', password: '' } as UserForm);
+  const {form, onChange} = useForm<UserForm>({ email: '', password: '' });
 
   const inputRef = useRef(null);
 

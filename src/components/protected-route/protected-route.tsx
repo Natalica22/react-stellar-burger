@@ -1,11 +1,17 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import { LOGIN_PAGE } from "../../utils/pages";
-import PropTypes from "prop-types";
+import { RootState } from "../../utils/types";
+import { ReactElement } from "react";
 
-const Protected = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
-  const user = useSelector((store) => store.user.user);
+type Props = {
+  onlyUnAuth?: boolean;
+  component: ReactElement;
+}
+
+const Protected = ({ onlyUnAuth = false, component }: Props) => {
+  const isAuthChecked = useSelector((store: RootState) => store.user.isAuthChecked);
+  const user = useSelector((store: RootState) => store.user.user);
   const location = useLocation();
 
   if (!isAuthChecked) {
@@ -25,15 +31,6 @@ const Protected = ({ onlyUnAuth = false, component }) => {
 };
 
 export const OnlyAuth = Protected;
-export const OnlyUnAuth = ({ component }) => (
-  <Protected onlyUnAuth={true} component={component} />
-);
-
-Protected.propTypes = {
-  onlyUnAuth: PropTypes.bool,
-  component: PropTypes.node.isRequired
-}
-
-OnlyUnAuth.propTypes = {
-  component: PropTypes.node.isRequired
-}
+export const OnlyUnAuth = ({ component }: Props) => (
+    <Protected onlyUnAuth={true} component={component} />
+)

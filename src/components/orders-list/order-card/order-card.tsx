@@ -1,22 +1,28 @@
-import PropTypes from "prop-types";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-card.module.css";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, Location } from "react-router-dom";
 import { STATUS_DONE, getStatusText } from "../../../utils/order";
-import { orderPropType } from "../../../utils/prop-types";
 import { getIngredients } from "../../../utils/ingredients";
+import { Ingredient, Order } from "../../../utils/types";
 
-export function OrderCard({ order, showStatus, basePage, location }) {
+type Props = {
+  order: Order;
+  showStatus?: boolean;
+  basePage: string;
+  location: Location;
+}
+
+export function OrderCard({ order, showStatus, basePage, location }: Props) {
   const ingredients = useSelector(getIngredients);
 
   const orderIngredients = useMemo(() => order.ingredients
     .map(e => ingredients.find(i => e === i._id))
-    .filter(e => e !== undefined), [ingredients, order]);
+    .filter(e => e !== undefined) as Ingredient[], [ingredients, order]);
 
   const uniqueIngredients = orderIngredients.reduce((result, e) =>
-    result.some(elem => elem._id === e._id) ? result : [...result, e], []);
+    result.some(elem => elem._id === e._id) ? result : [...result, e], [] as Ingredient[]);
 
   const otherIngredients = uniqueIngredients.length - 6;
 
@@ -63,11 +69,4 @@ export function OrderCard({ order, showStatus, basePage, location }) {
       </div>
     </Link>
   )
-}
-
-OrderCard.prototype = {
-  order: orderPropType.isRequired,
-  showStatus: PropTypes.bool,
-  basePage: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired
 }

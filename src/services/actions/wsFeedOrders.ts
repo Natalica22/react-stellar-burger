@@ -9,7 +9,7 @@ export const FEED_WS_CLOSE: 'FEED_WS_CLOSE' = 'FEED_WS_CLOSE';
 export const FEED_WS_ERROR: 'FEED_WS_ERROR' = 'FEED_WS_ERROR';
 export const FEED_WS_MESSAGE: 'FEED_WS_MESSAGE' = 'FEED_WS_MESSAGE';
 
-type FeedWsConnect = {
+export type FeedWsConnect = {
   readonly type: typeof FEED_WS_CONNECT;
   payload: {
     url: string;

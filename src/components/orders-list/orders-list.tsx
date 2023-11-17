@@ -1,10 +1,16 @@
-import PropTypes from "prop-types";
 import { OrderCard } from "./order-card/order-card";
 import styles from "./orders-list.module.css";
 import { useLocation } from "react-router-dom";
-import { orderPropType } from "../../utils/prop-types";
+import { Order } from "../../utils/types";
 
-export function OrdersList({ orders, showStatus, basePage, className }) {
+type Props = {
+  orders: Order[];
+  showStatus: boolean;
+  basePage: string;
+  className?: string;
+}
+
+export function OrdersList({ orders, showStatus, basePage, className }: Props) {
   const location = useLocation();
 
   return (
@@ -12,11 +18,4 @@ export function OrdersList({ orders, showStatus, basePage, className }) {
       {orders.map(e => <OrderCard key={e._id} order={e} showStatus={showStatus} basePage={basePage} location={location} />)}
     </div>
   )
-}
-
-OrdersList.prototype = {
-  orders: PropTypes.arrayOf(orderPropType).isRequired,
-  showStatus: PropTypes.bool,
-  basePage: PropTypes.string.isRequired,
-  className: PropTypes.string
 }

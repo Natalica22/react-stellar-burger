@@ -4,34 +4,43 @@ import { useDispatch, useSelector } from "react-redux";
 import { patchUser } from "../../services/actions/user";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "../../hooks/useForm";
+import { ProfileEditForm, RootState } from "../../utils/types";
 
 export function ProfileForm() {
   const dispatch = useDispatch();
 
-  const getUser = store => store.user.user;
+  const getUser = (store: RootState) => store.user.user;
 
   const user = useSelector(getUser);
 
-  const { form, onChange, setForm } = useForm({ ...user, password: '' });
+  const { form, onChange, setForm } = useForm<ProfileEditForm>({ 
+    name: user ? user.name: '',
+    email: user ? user.email : '',
+    password: ''
+  });
   const [editActive, setEditActive] = useState(false);
 
-  const nameInputRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setEditActive(!(user.name === form.name && user.email === form.email && form.password === ''));
+    setEditActive(!(user?.name === form.name && user.email === form.email && form.password === ''));
   }, [form, user]);
 
-  const submitForm = e => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(patchUser(form));
     setForm({ ...form, password: '' })
   }
 
-  const resetForm = e => {
+  const resetForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setForm({ ...user, password: '' });
+    setForm({
+      name: user ? user.name: '',
+      email: user ? user.email : '',
+      password: ''
+    });
   }
 
   return (
@@ -48,7 +57,7 @@ export function ProfileForm() {
           errorText={'Ошибка'}
           size={'default'}
           icon="EditIcon"
-          onIconClick={() => nameInputRef.current.focus()}
+          onIconClick={() => nameInputRef.current?.focus()}
         />
         <Input
           onChange={onChange}
@@ -61,7 +70,7 @@ export function ProfileForm() {
           errorText={'Ошибка'}
           size={'default'}
           icon="EditIcon"
-          onIconClick={() => emailInputRef.current.focus()}
+          onIconClick={() => emailInputRef.current?.focus()}
         />
         <Input
           onChange={onChange}
@@ -74,7 +83,7 @@ export function ProfileForm() {
           errorText={'Ошибка'}
           size={'default'}
           icon="EditIcon"
-          onIconClick={() => passwordInputRef.current.focus()}
+          onIconClick={() => passwordInputRef.current?.focus()}
         />
         {
           editActive &&

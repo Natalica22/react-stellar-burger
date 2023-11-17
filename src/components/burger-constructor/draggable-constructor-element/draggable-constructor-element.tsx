@@ -4,19 +4,33 @@ import { DELETE_INGREDIENT } from "../../../services/actions/cart";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
-import PropTypes from "prop-types"
-import { ingredientPropType } from "../../../utils/prop-types";
+import { Ingredient } from "../../../utils/types";
+import { Identifier } from 'dnd-core'
 
-export default function DraggableConstructorElement({ ingredient, index, moveElement }) {
+type Props = {
+  ingredient: Ingredient;
+  index: number;
+  moveElement: (dragIndex: number, hoverIndex: number) => void;
+}
+
+type DraggableItem = {
+  index: number;
+}
+
+type Handler = {
+  handlerId: Identifier | null
+}
+
+export default function DraggableConstructorElement({ ingredient, index, moveElement }: Props) {
   const dispatch = useDispatch();
 
-  const deleteIngredient = (i) => {
+  const deleteIngredient = (i: number) => {
     dispatch({ type: DELETE_INGREDIENT, index: i });
   }
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  const [{ handlerId }, dropRef] = useDrop({
+  const [{ handlerId }, dropRef] = useDrop<DraggableItem, Handler, Handler>({
     accept: 'constructorElement',
     collect(monitor) {
       return {
@@ -35,7 +49,7 @@ export default function DraggableConstructorElement({ ingredient, index, moveEle
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset ? clientOffset.y - hoverBoundingRect.top : 0;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -73,10 +87,4 @@ export default function DraggableConstructorElement({ ingredient, index, moveEle
       />
     </div>
   )
-}
-
-DraggableConstructorElement.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  index: PropTypes.number.isRequired,
-  moveElement: PropTypes.func.isRequired
 }

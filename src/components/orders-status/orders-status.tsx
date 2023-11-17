@@ -2,9 +2,10 @@ import { useSelector } from "react-redux";
 import styles from "./orders-status.module.css";
 import { STATUS_DONE } from "../../utils/order";
 import { useMemo } from "react";
+import { RootState } from "../../utils/types";
 
 export function OrdersStatus() {
-  const getOrdersData = store => store.wsFeedOrders.data;
+  const getOrdersData = (store: RootState) => store.wsFeedOrders.data;
   const ordersData = useSelector(getOrdersData);
 
   const doneOrders = useMemo(() =>

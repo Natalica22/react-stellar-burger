@@ -6,20 +6,21 @@ import { api } from '../../utils/api';
 import { FORGOT_PASSWORD_PASSED } from '../../utils/constants';
 import { RESET_PASSWORD_PAGE } from '../../utils/pages';
 import { useForm } from '../../hooks/useForm';
+import { ForgotPasswordForm } from '../../utils/types';
 
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
 
-  const {form, onChange} = useForm({ email: '' });
+  const {form, onChange} = useForm<ForgotPasswordForm>({ email: '' });
   const [error, setError] = useState(false);
   const inputRef = useRef(null);
 
-  const submitForm = e => {
+  const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     api.forgotPassword(form)
       .then(() => {
-        localStorage.setItem(FORGOT_PASSWORD_PASSED, true);
+        localStorage.setItem(FORGOT_PASSWORD_PASSED, "true");
         navigate(RESET_PASSWORD_PAGE);
       })
       .catch(() => setError(true));
