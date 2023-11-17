@@ -10,7 +10,7 @@ export type RegistrationForm = {
   password: string;
 }
 
-export type UserForm = {
+export type LoginForm = {
   email: string;
   password: string;
 }
@@ -33,6 +33,10 @@ export type ProfileEditForm = {
 export type User = {
   email: string;
   name: string;
+}
+
+export type UserResponse = {
+  user: User;
 }
 
 export type LoginResponse = {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../services/actions/login';
 import { useRef } from 'react';
 import { useForm } from '../../hooks/useForm';
-import { RootState, UserForm } from '../../utils/types';
+import { RootState, LoginForm } from '../../utils/types';
 
 export function LoginPage() {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ export function LoginPage() {
   const error = useSelector(getError);
   const hasError = error != null;
 
-  const {form, onChange} = useForm<UserForm>({ email: '', password: '' });
+  const {form, onChange} = useForm<LoginForm>({ email: '', password: '' });
 
   const inputRef = useRef(null);
 

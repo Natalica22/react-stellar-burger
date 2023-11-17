@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api"
-import { AppDispatch, User } from "../../utils/types";
+import { AppDispatch, ProfileEditForm, User } from "../../utils/types";
 
 export const SET_AUTH_CHECKED: 'SET_AUTH_CHECKED' = 'SET_AUTH_CHECKED';
 export const SET_USER: 'SET_USER' = 'SET_USER';
@@ -53,7 +53,7 @@ export const checkUserAuth = () => {
   };
 };
 
-export const patchUser = (user: User) => {
+export const patchUser = (user: ProfileEditForm) => {
   return (dispatch: AppDispatch) => {
     api.patchUser(user)
       .then(res => {

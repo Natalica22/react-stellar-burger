@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN, api } from "../../utils/api";
-import { AppDispatch, LoginResponse, UserForm } from "../../utils/types";
+import { AppDispatch, LoginResponse, LoginForm } from "../../utils/types";
 import { setAuthChecked, setUser } from "./user";
 
 export const LOGIN_REQUEST: 'LOGIN_REQUEST' = 'LOGIN_REQUEST';
@@ -25,7 +25,7 @@ export type LoginActions =
   | LoginSuccess
   | LoginError;
 
-export function loginUser(user: UserForm) {
+export function loginUser(user: LoginForm) {
   return (dispatch: AppDispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     api.login(user)
